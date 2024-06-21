@@ -1,3 +1,72 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .slider-track {
+        @apply absolute w-full h-2 rounded-full m-auto top-0 bottom-0 bg-primary-600;
+    }
+
+    .input_range {
+        @apply absolute appearance-none w-full outline-none m-auto top-0 bottom-0 bg-transparent pointer-events-none;
+    }
+
+    .input_range::-webkit-slider-runnable-track {
+        height: 6px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+    .input_range::-moz-range-track {
+        height: 6px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+    .input_range::-ms-track {
+        height: 6px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+
+    .input_range::-webkit-slider-thumb {
+        width: 20px;
+        height: 20px;
+        border: #e1e5ee 4px solid;
+        border-radius: 50%;
+        background: #99157c;
+        cursor: pointer;
+        pointer-events: auto;
+        margin-top: -6px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    .input_range::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border: #e1e5ee 4px solid;
+        border-radius: 50%;
+        background: #99157c;
+        cursor: pointer;
+        pointer-events: auto;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    .input_range::-ms-thumb {
+        width: 20px;
+        height: 20px;
+        border: #e1e5ee 4px solid;
+        border-radius: 50%;
+        background: #99157c;
+        cursor: pointer;
+        pointer-events: auto;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+}

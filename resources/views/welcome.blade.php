@@ -11,12 +11,12 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
         <!-- Styles -->
-        @vite('resources/css/app.css')
         @livewireStyles
+        @vite('resources/css/app.css')
     </head>
     <body class="font-sans antialiased bg-gray-300">
-        <div class="bg-gray-300 text-black/50">
-            <h1>Hola mundo</h1>
+        <div class="bg-tertiary text-black/50 inset-0">
+            <h1 class="text-secondary-100">Hola mundo</h1>
         </div>
         @livewireScripts
     </body>
