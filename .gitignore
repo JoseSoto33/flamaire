@@ -10,6 +10,10 @@
 .env.production
 .phpactor.json
 .phpunit.result.cache
+.htaccess
+.htaccess_bk
+default.htm
+error_log
 Homestead.json
 Homestead.yaml
 auth.json
