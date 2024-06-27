@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     @livewireStyles
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body x-data="{ open: false }" :class="open? 'overflow-hidden' : ''">
