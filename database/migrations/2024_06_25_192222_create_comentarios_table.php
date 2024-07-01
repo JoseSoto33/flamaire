@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nombre', 150);
             $table->text('comentario');
             $table->integer('calificacion');
+            $table->timestamps();
             $table->string('estado', 10)->default('pendiente');
             $table->boolean('status')->default(1);
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');

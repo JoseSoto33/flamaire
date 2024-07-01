@@ -13,7 +13,7 @@ class Categoria extends Model
 {
     use HasFactory;
 
-        /**
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -33,6 +33,7 @@ class Categoria extends Model
      * @var array
      */
     protected $attributes = [
+        'id_categoria_padre' => null,
         'status' => true,
     ];
 
@@ -49,7 +50,7 @@ class Categoria extends Model
      */
     public function subCategorias(): HasMany
     {
-        return $this->hasMany(Categoria::class, 'id_categoria_padre', 'id');
+        return $this->hasMany(Categoria::class, 'id_categoria_padre');
     }
 
     /**
@@ -57,6 +58,6 @@ class Categoria extends Model
      */
     public function categoriasPadre(): BelongsTo
     {
-        return $this->BelongsTo(Categoria::class, 'id', 'id_categoria_padre');
+        return $this->belongsTo(Categoria::class, 'id_categoria_padre');
     }
 }

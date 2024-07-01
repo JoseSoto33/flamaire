@@ -29,6 +29,7 @@ return new class extends Migration
             $table->double('precio_subida');
             $table->double('precio_total');
             $table->boolean('status')->default(1);
+            $table->timestamps();
         });
 
         Schema::create('plan_personalizado_dias', function (Blueprint $table) {

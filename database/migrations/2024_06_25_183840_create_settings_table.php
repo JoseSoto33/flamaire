@@ -19,7 +19,6 @@ return new class extends Migration
             $table->timestamp('fecha_creado')->useCurrent();
             $table->timestamp('fecha_editado')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->boolean('status')->default(1);
-            $table->timestamps();
         });
 
         Schema::create('meta_data', function (Blueprint $table) {
