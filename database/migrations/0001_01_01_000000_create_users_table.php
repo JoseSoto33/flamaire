@@ -36,7 +36,6 @@ return new class extends Migration
             $table->string('otros_servicios', length: 255);
             $table->string('otros_servicios_especiales', length: 255);
             $table->string('otra_descripcion', length: 255);
-            $table->integer('id_plan_personalizado')->nullable();
             $table->string('url_foto', length: 200);
             $table->boolean('boletines');
             $table->string('rol', length: 15)->default('client');
@@ -46,7 +45,6 @@ return new class extends Migration
             $table->foreign('id_sub_categoria')->references('id')->on('categorias')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_nacionalidad')->references('id')->on('nacionalidades')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('id_zona')->references('id')->on('ciudades_zonas')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_plan_personalizado')->references('id')->on('planes_personalizados')->onUpdate('cascade')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -56,7 +54,7 @@ return new class extends Migration
         });
 
         Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->integer('id')->primary();
             $table->foreignId('user_id')
                     ->constrained(
                         table: 'usuarios', indexName: 'sessions_usuarios_id'
@@ -68,6 +66,7 @@ return new class extends Migration
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
+            $table->timestamps();
             $table->integer('last_activity')->index();
         });
 
@@ -89,7 +88,7 @@ return new class extends Migration
             $table->foreign('id_usuario')->references('id')->on('usuarios');
         });
 
-        Schema::create('videos_anuncio', function (Blueprint $table) {
+        Schema::create('videos_usuario', function (Blueprint $table) {
             $table->id();
             $table->integer('id_usuario');
             $table->string('url_video', 255);
@@ -116,6 +115,8 @@ return new class extends Migration
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
         Schema::dropIfExists('usuarios_listados');
-        Schema::dropIfExists('fotos_anuncio');
+        Schema::dropIfExists('fotos_usuario');
+        Schema::dropIfExists('videos_usuario');
+        Schema::dropIfExists('tarifas');
     }
 };

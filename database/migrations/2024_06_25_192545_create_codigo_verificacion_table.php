@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('fecha_creado')->useCurrent();
             $table->boolean('status')->default(1);
             $table->foreign('id_usuario')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_ejemplo')->references('id')->on('imagenes_ejemplo_verificacion')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
