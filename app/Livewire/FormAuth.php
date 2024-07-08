@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -38,7 +39,15 @@ class FormAuth extends Component
         ];
  
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            // $request->session()->regenerate();
+            // Verificar si la sesión se crea correctamente
+            if ($request->session()->has('session_name')) {
+                Log::info('Sesión creada correctamente.');
+            } else {
+                Log::error('Sesión no creada.');
+            }
+
+        $this->reset(); 
             $this->reset(); 
             return redirect()->route('dashboard');
         }
