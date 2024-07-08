@@ -29,7 +29,7 @@ class FormAuth extends Component
         ];
     }
 
-    public function save (Request $request)
+    public function save ()
     {
         $this->validate(); 
 
@@ -41,11 +41,11 @@ class FormAuth extends Component
         if (Auth::attempt($credentials)) {
             Log::info('Autenticación exitosa para usuario con email: ' . $this->email);
 
-            $request->session()->regenerate();
+            request()->session()->regenerate();
             Log::info('Sesión regenerada.');
 
             // Verificar si la sesión se crea correctamente
-            if ($request->session()->has('session_name')) {
+            if (request()->session()->has('session_name')) {
                 Log::info('Sesión creada correctamente.');
             } else {
                 Log::error('Sesión no creada.');
