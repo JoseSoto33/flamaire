@@ -53,6 +53,11 @@
                 <x-link href="{{ route('home') }}/" link_type="primary">
                     + Publicar
                 </x-link>
+                @if (Auth::check())
+                <x-link href="{{ route('user-logout') }}/" link_type="transparent">
+                    Logout
+                </x-link>
+                @endif
                 <button
                     class="inline-flex md:hidden items-center p-2.5 justify-center border-2 border-transparent text-sm text-primary-600 rounded-lg hover:border-primary-600 focus:border-primary-600"
                     type="button" x-on:click="showMenu = !showMenu" x-on:click.outside="showMenu = false">

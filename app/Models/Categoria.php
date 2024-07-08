@@ -28,6 +28,13 @@ class Categoria extends Model
     protected $primaryKey = 'id';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['nombre', 'status'];
+
+    /**
      * The model's default values for attributes.
      *
      * @var array
@@ -56,7 +63,7 @@ class Categoria extends Model
     /**
      * Obtiene la categoría a la que pertenece esta subcategoría.
      */
-    public function categoriasPadre(): BelongsTo
+    public function categoriaPadre(): BelongsTo
     {
         return $this->belongsTo(Categoria::class, 'id_categoria_padre');
     }

@@ -24,6 +24,34 @@ class MetaData extends Model
     protected $primaryKey = "id";
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'row_id', 'table_name', 'slug',
+        'meta_title',
+        'meta_description',
+        'titulo_pestania',
+        'titulo_header',
+        'titulo',
+        'titulo_area_categorias',
+        'descripcion_area_categorias',
+        'descripcion',
+        'descripcion_detallada',
+        'status_meta_title',
+        'status_meta_description',
+        'status_titulo_pestania',
+        'status_titulo_header',
+        'status_titulo',
+        'status_titulo_area_categorias',
+        'status_descripcion_area_categorias',
+        'status_descripcion',
+        'status_descripcion_detallada',
+        'status',
+    ];
+
+    /**
      * The model's default values for attributes.
      *
      * @var array

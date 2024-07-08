@@ -7,8 +7,9 @@
             <p class="w-full max-w-xl text-lg text-white text-center font-normal m-auto">
                 Únete a nuestra comunidad y comienza a disfrutar de citas inolvidables hoy mismo.
             </p>
+            @if (!Auth::check())
             <div class="flex flex-wrap items-center justify-center gap-4 mt-4">
-                <a href="#" class="leading-normal px-5 py-3 border-collapse rounded-lg bg-white text-center text-lg font-semibold hover:bg-gray-200 text-tertiary">
+                <a href="{{ route('login') }}/" class="leading-normal px-5 py-3 border-collapse rounded-lg bg-white text-center text-lg font-semibold hover:bg-gray-200 text-tertiary">
                     Iniciar Sesión
                 </a>
                 <a href="#" class="leading-6 flex items-end justify-center gap-1 px-5 py-3 border-collapse rounded-xl text-white text-center text-lg font-semibold hover:text-gray-200">
@@ -18,6 +19,7 @@
                     </svg>
                 </a>
             </div>
+            @endif
             <h3 class="w-full max-w-4xl text-2xl text-white mt-14 mx-auto">Encuentra el anuncio que deseas</h3>
             <div class="w-full max-w-4xl p-2 rounded-lg bg-white mt-2 mx-auto">
                 <form class="w-full flex items-center justify-between max-sm:flex-wrap" action="#" method="post">
@@ -257,7 +259,7 @@
                                     clip-rule="evenodd"></path>
                             </svg> ¿Pregunta 1?
                         </span>
-                        <svg data-accordion-icon :class="open1 ? 'w-3 h-3 rotate-180 shrink-0' : 'w-3 h-3 shrink-0'" aria-hidden="true"
+                        <svg data-accordion-icon :class="!open1 ? 'w-3 h-3 rotate-180 shrink-0' : 'w-3 h-3 shrink-0'" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" d="M9 5 5 1 1 5" />
@@ -282,7 +284,7 @@
                             </svg>
                             ¿Pregunta 2?
                         </span>
-                        <svg data-accordion-icon :class="open2 ? 'w-3 h-3 rotate-180 shrink-0' : 'w-3 h-3 shrink-0'" aria-hidden="true"
+                        <svg data-accordion-icon :class="!open2 ? 'w-3 h-3 rotate-180 shrink-0' : 'w-3 h-3 shrink-0'" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" d="M9 5 5 1 1 5" />
@@ -307,7 +309,7 @@
                             </svg>
                             ¿Pregunta 3?
                         </span>
-                        <svg data-accordion-icon :class="open3 ? 'w-3 h-3 rotate-180 shrink-0' : 'w-3 h-3 shrink-0'" aria-hidden="true"
+                        <svg data-accordion-icon :class="!open3 ? 'w-3 h-3 rotate-180 shrink-0' : 'w-3 h-3 shrink-0'" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" d="M9 5 5 1 1 5" />

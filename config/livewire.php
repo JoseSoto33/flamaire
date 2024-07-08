@@ -38,7 +38,8 @@ return [
     |
     */
 
-    'layout' => 'components.layouts.app',
+    // 'layout' => 'components.layouts.app',
+    'layout' => 'components.layouts.layout-admin',
 
     /*
     |---------------------------------------------------------------------------
@@ -50,7 +51,8 @@ return [
     |
     */
 
-    'lazy_placeholder' => null,
+    // 'lazy_placeholder' => null,
+    'lazy_placeholder' => 'livewire.placeholders.cargando',
 
     /*
     |---------------------------------------------------------------------------
