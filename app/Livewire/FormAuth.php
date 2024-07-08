@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -43,6 +44,17 @@ class FormAuth extends Component
 
             request()->session()->regenerate();
             Log::info('Sesión regenerada.');
+
+            // Verifica si la sesión se está creando en la base de datos
+            $sessionId = session()->getId();
+            Log::info('ID de la sesión: ' . $sessionId);
+
+            $sessionExists = DB::table('sessions')->where('id', $sessionId)->exists();
+            if ($sessionExists) {
+                Log::info('Sesión creada correctamente en la base de datos.');
+            } else {
+                Log::error('Sesión no creada en la base de datos.');
+            }
 
             // Verificar si la sesión se crea correctamente
             if (request()->session()->has('session_name')) {
