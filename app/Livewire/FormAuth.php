@@ -39,15 +39,18 @@ class FormAuth extends Component
         ];
  
         if (Auth::attempt($credentials)) {
-            // $request->session()->regenerate();
+            Log::info('Autenticación exitosa para usuario con email: ' . $this->email);
+
+            $request->session()->regenerate();
+            Log::info('Sesión regenerada.');
+
             // Verificar si la sesión se crea correctamente
             if ($request->session()->has('session_name')) {
                 Log::info('Sesión creada correctamente.');
             } else {
                 Log::error('Sesión no creada.');
             }
-
-        $this->reset(); 
+ 
             $this->reset(); 
             return redirect()->route('dashboard');
         }
