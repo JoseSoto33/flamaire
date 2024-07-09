@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('facturas', function (Blueprint $table) {
             $table->id();
             $table->integer('id_subida');
-            $table->string('id_sesion');
+            $table->integer('id_usuario');
             $table->string('descripcion', 100);
             $table->string('tiket', 12);
             $table->double('precio_total');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamp('fecha_pago')->nullable();
             $table->string('status', 15);
             $table->foreign('id_subida')->references('id')->on('subidas')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('id_sesion')->references('id')->on('sessions')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

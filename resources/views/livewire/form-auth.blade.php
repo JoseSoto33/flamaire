@@ -1,7 +1,7 @@
-<div class="w-full min-h-screen bg-gradient-to-b from-tertiary from-40% via-primary-600 via-60% to-primary-500 to-90% py-16 flex items-center justify-center md:py-36">
+<div class="w-full min-h-screen bg-gradient-to-b from-tertiary from-40% via-primary-600 via-60% to-primary-500 to-90% p-4 flex items-center justify-center md:p-8">
     <div id="auth-form" class="w-full max-w-lg min-h-40 bg-white rounded-lg shadow-sm shadow-gray-200 p-4">
         <div class="w-full mb-4 flex items-center justify-center">
-            <a href="{{ route('home') }}/" wire:navigate.hover>
+            <a href="{{ route('home') }}/">
                 <img class="w-full max-w-64" src="{{ asset('img/flamaire-logo-2.png') }}" alt="" srcset="">
             </a>
         </div>

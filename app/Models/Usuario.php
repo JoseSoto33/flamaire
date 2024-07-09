@@ -65,6 +65,14 @@ class Usuario extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Obtiene las facturas realizadas durante la sesión
+     */
+    public function facturas(): HasMany
+    {
+        return $this->hasMany(Factura::class, 'id_usuario');
+    }
+
+    /**
      * Obtiene la categoría a la que pertenece el usuario.
      */
     public function categoria(): BelongsTo

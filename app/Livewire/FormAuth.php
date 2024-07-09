@@ -50,6 +50,8 @@ class FormAuth extends Component
             $this->reset(); 
             return redirect(route('dashboard').'/');
         }
+        
+
         $this->addError('error', 'El email o la contraseña son incorrectos, verifique sus datos e intente nuevamente.');
         return back()
                 ->withErrors(['error' => 'El email o la contraseña son incorrectos, verifique sus datos e intente nuevamente.'])

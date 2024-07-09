@@ -40,12 +40,4 @@ class Sesion extends Model
     {
         return $this->belongsTo(Usuario::class, 'user_id');
     }
-
-    /**
-     * Obtiene las facturas realizadas durante la sesión
-     */
-    public function facturas(): HasMany
-    {
-        return $this->hasMany(Factura::class, 'id_sesion');
-    }
 }
