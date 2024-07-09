@@ -49,6 +49,8 @@ class FormAuth extends Component
             $sessionId = session()->getId();
             Log::info('ID de la sesión: ' . $sessionId);
 
+            Log::info('User email: ' . Auth::user()->email);
+
             $sessionExists = DB::table('sessions')->where('id', $sessionId)->exists();
             if ($sessionExists) {
                 Log::info('Sesión creada correctamente en la base de datos.');
