@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth.session'])->group(function () {
     Route::get('/dashboard/', [AdminController::class, 'index'])->name('dashboard')->lazy();
     Route::get('/admin-categorias/{id?}/', AdminCategories::class)->name('admin-categorias')->lazy();
 
