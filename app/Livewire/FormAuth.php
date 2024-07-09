@@ -51,16 +51,6 @@ class FormAuth extends Component
             $sessionId = $request->session()->getId();
             Log::info('ID de la sesión: ' . $sessionId);
 
-            // Crear una instancia del modelo de sesión
-            // Sesion::create([
-            //     'id' => $sessionId,
-            //     'user_id' => Auth::id(),
-            //     'ip_address' => request()->ip(),
-            //     'user_agent' => request()->header('User-Agent'),
-            //     'payload' => base64_encode(serialize(session()->all())),
-            //     'last_activity' => now()->timestamp,
-            // ]);
-
             $sessionExists = DB::table('sessions')->where('id', $sessionId)->exists();
             if ($sessionExists) {
                 Log::info('Sesión creada correctamente en la base de datos.');
@@ -74,6 +64,8 @@ class FormAuth extends Component
             } else {
                 Log::error('Sesión no creada.');
             }
+            $data = $request->session()->all();
+            Log::info('Session_data: ' . json_encode($data));
  
             $this->reset(); 
             return redirect()->route('dashboard');
@@ -82,7 +74,6 @@ class FormAuth extends Component
         return back()
                 ->withErrors(['error' => 'El email o la contraseña son incorrectos, verifique sus datos e intente nuevamente.'])
                 ->withInput();
-        // return redirect()->intended('login'); // Asegúrate de redirigir a una ruta válida en tu aplicación.
     }
 
     public function render()
