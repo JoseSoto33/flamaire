@@ -42,7 +42,7 @@ class FormAuth extends Component
         if (Auth::attempt($credentials)) {
             Log::info('Autenticación exitosa para usuario con email: ' . $this->email);
 
-            request()->session()->regenerate();
+            session()->regenerate();
             Log::info('Sesión regenerada.');
 
             // Verifica si la sesión se está creando en la base de datos
@@ -50,6 +50,8 @@ class FormAuth extends Component
             Log::info('ID de la sesión: ' . $sessionId);
 
             Log::info('User email: ' . Auth::user()->email);
+
+            Auth::login(Auth::user());
 
             $sessionExists = DB::table('sessions')->where('id', $sessionId)->exists();
             if ($sessionExists) {
@@ -59,7 +61,7 @@ class FormAuth extends Component
             }
 
             // Verificar si la sesión se crea correctamente
-            if (request()->session()->has('session_name')) {
+            if (session()->has('session_name')) {
                 Log::info('Sesión creada correctamente.');
             } else {
                 Log::error('Sesión no creada.');
