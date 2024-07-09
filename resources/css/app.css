@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+[x-cloak] { display: none !important; }
+
+@layer base {
+    .form-error-msg {
+        @apply text-sm font-semibold text-red-500;
+    }
+
+    .form-label {
+        @apply font-semibold absolute -top-3.5 left-4 bg-white rounded-md px-1 cursor-pointer;
+    }
+
+    .form-label-line {
+        @apply font-semibold mb-px cursor-pointer;
+    }
+}
+
 @layer components {
     .slider-track {
         @apply absolute w-full h-2 rounded-full m-auto top-0 bottom-0 bg-primary-600;

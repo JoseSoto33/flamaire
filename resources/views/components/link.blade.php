@@ -25,7 +25,7 @@
         @break
 
     @default
-        @php $class = ""; @endphp
+        @php $class = "font-sans text-md font-bold text-center text-primary-600 align-middle hover:text-tertiary active:text-tertiary disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"; @endphp
         @break
 
 @endswitch
