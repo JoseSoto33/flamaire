@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('facturas', function (Blueprint $table) {
             $table->id();
             $table->integer('id_subida');
-            $table->integer('id_sesion');
+            $table->string('id_sesion');
             $table->string('descripcion', 100);
             $table->string('tiket', 12);
             $table->double('precio_total');
