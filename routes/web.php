@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\HomeController;
 use App\Livewire\AdminCategories;
+use App\Livewire\FormAuth;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -21,5 +22,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('/login/', [AuthController::class, 'index'])->name('login');
+    // Route::get('/login/', [AuthController::class, 'index'])->name('login');
+    Route::get('/login/', FormAuth::class)->name('login');
 });

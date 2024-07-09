@@ -9,10 +9,10 @@
             </p>
             @if (!Auth::check())
             <div class="flex flex-wrap items-center justify-center gap-4 mt-4">
-                <a href="{{ route('login') }}/" class="leading-normal px-5 py-3 border-collapse rounded-lg bg-white text-center text-lg font-semibold hover:bg-gray-200 text-tertiary">
+                <a href="{{ route('login') }}/" wire:navigate.hover class="leading-normal px-5 py-3 border-collapse rounded-lg bg-white text-center text-lg font-semibold hover:bg-gray-200 text-tertiary">
                     Iniciar Sesión
                 </a>
-                <a href="#" class="leading-6 flex items-end justify-center gap-1 px-5 py-3 border-collapse rounded-xl text-white text-center text-lg font-semibold hover:text-gray-200">
+                <a href="#" wire:navigate.hover class="leading-6 flex items-end justify-center gap-1 px-5 py-3 border-collapse rounded-xl text-white text-center text-lg font-semibold hover:text-gray-200">
                     Registrarse
                     <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 12H5m14 0-4 4m4-4-4-4"/>

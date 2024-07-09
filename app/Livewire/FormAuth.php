@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -61,7 +62,7 @@ class FormAuth extends Component
             $data = $request->session()->all();
             Log::info('Session_data: ' . json_encode($data));
  
-            // $this->reset(); 
+            $this->reset(); 
             return redirect()->route('dashboard');
         }
         $this->addError('error', 'El email o la contraseña son incorrectos, verifique sus datos e intente nuevamente.');
@@ -70,6 +71,7 @@ class FormAuth extends Component
                 ->withInput();
     }
 
+    #[Layout('components.layouts.layout-auth')] 
     public function render()
     {
         return view('livewire.form-auth');
