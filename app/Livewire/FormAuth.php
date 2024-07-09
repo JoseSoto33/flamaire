@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Sesion;
+use App\Models\Usuario;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,7 @@ class FormAuth extends Component
  
         if (Auth::attempt($credentials)) {
             Log::info('Autenticación exitosa para usuario con email: ' . $this->email);
-
+            
             $request->session()->regenerate();
             Log::info('Sesión regenerada.');
 
@@ -51,15 +52,8 @@ class FormAuth extends Component
             $sessionId = $request->session()->getId();
             Log::info('ID de la sesión: ' . $sessionId);
 
-            $sessionExists = DB::table('sessions')->where('id', $sessionId)->exists();
-            if ($sessionExists) {
-                Log::info('Sesión creada correctamente en la base de datos.');
-            } else {
-                Log::error('Sesión no creada en la base de datos.');
-            }
-
             // Verificar si la sesión se crea correctamente
-            if ($request->session()->has('session_name')) {
+            if (Auth::check()) {
                 Log::info('Sesión creada correctamente.');
             } else {
                 Log::error('Sesión no creada.');
@@ -67,7 +61,7 @@ class FormAuth extends Component
             $data = $request->session()->all();
             Log::info('Session_data: ' . json_encode($data));
  
-            $this->reset(); 
+            // $this->reset(); 
             return redirect()->route('dashboard');
         }
         $this->addError('error', 'El email o la contraseña son incorrectos, verifique sus datos e intente nuevamente.');
