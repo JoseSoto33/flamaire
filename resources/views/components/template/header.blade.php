@@ -303,7 +303,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.directive('modal', el => {
-                console.log(el);
+                console.log(1);
             })
 
         })

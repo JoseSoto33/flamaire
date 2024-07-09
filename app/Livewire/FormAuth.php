@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Sesion;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,16 +43,22 @@ class FormAuth extends Component
         if (Auth::attempt($credentials)) {
             Log::info('Autenticación exitosa para usuario con email: ' . $this->email);
 
-            session()->regenerate();
+            request()->session()->regenerate();
             Log::info('Sesión regenerada.');
 
             // Verifica si la sesión se está creando en la base de datos
             $sessionId = session()->getId();
             Log::info('ID de la sesión: ' . $sessionId);
 
-            Log::info('User email: ' . Auth::user()->email);
-
-            Auth::login(Auth::user());
+            // Crear una instancia del modelo de sesión
+            Sesion::create([
+                'id' => $sessionId,
+                'user_id' => Auth::id(),
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->header('User-Agent'),
+                'payload' => base64_encode(serialize(session()->all())),
+                'last_activity' => now()->timestamp,
+            ]);
 
             $sessionExists = DB::table('sessions')->where('id', $sessionId)->exists();
             if ($sessionExists) {

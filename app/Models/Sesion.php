@@ -24,6 +24,14 @@ class Sesion extends Model
      * @var string
      */
     protected $primaryKey = "id";
+    
+    public $incrementing = false;
+    protected $keyType = 'string';
+    public $timestamps = false;
+    
+    protected $fillable = [
+        'id', 'user_id', 'ip_address', 'user_agent', 'payload', 'last_activity'
+    ];
 
     /**
      * Obtiene el usuario al que pertenece la sesión
