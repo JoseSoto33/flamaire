@@ -63,7 +63,7 @@ class FormAuth extends Component
             Log::info('Session_data: ' . json_encode($data));
  
             $this->reset(); 
-            return redirect()->route('dashboard');
+            return redirect(route('dashboard').'/');
         }
         $this->addError('error', 'El email o la contraseña son incorrectos, verifique sus datos e intente nuevamente.');
         return back()
