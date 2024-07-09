@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -31,7 +32,7 @@ class FormAuth extends Component
         ];
     }
 
-    public function save ()
+    public function save (Request $request)
     {
         $this->validate(); 
 
@@ -43,11 +44,11 @@ class FormAuth extends Component
         if (Auth::attempt($credentials)) {
             Log::info('Autenticación exitosa para usuario con email: ' . $this->email);
 
-            request()->session()->regenerate();
+            $request->session()->regenerate();
             Log::info('Sesión regenerada.');
 
             // Verifica si la sesión se está creando en la base de datos
-            $sessionId = session()->getId();
+            $sessionId = $request->session()->getId();
             Log::info('ID de la sesión: ' . $sessionId);
 
             // Crear una instancia del modelo de sesión
@@ -68,7 +69,7 @@ class FormAuth extends Component
             }
 
             // Verificar si la sesión se crea correctamente
-            if (session()->has('session_name')) {
+            if ($request->session()->has('session_name')) {
                 Log::info('Sesión creada correctamente.');
             } else {
                 Log::error('Sesión no creada.');
