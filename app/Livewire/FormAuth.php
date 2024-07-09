@@ -51,14 +51,14 @@ class FormAuth extends Component
             Log::info('ID de la sesión: ' . $sessionId);
 
             // Crear una instancia del modelo de sesión
-            Sesion::create([
-                'id' => $sessionId,
-                'user_id' => Auth::id(),
-                'ip_address' => request()->ip(),
-                'user_agent' => request()->header('User-Agent'),
-                'payload' => base64_encode(serialize(session()->all())),
-                'last_activity' => now()->timestamp,
-            ]);
+            // Sesion::create([
+            //     'id' => $sessionId,
+            //     'user_id' => Auth::id(),
+            //     'ip_address' => request()->ip(),
+            //     'user_agent' => request()->header('User-Agent'),
+            //     'payload' => base64_encode(serialize(session()->all())),
+            //     'last_activity' => now()->timestamp,
+            // ]);
 
             $sessionExists = DB::table('sessions')->where('id', $sessionId)->exists();
             if ($sessionExists) {
