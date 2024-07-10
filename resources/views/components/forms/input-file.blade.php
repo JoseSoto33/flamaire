@@ -43,7 +43,7 @@
     >
     <div class="w-full flex items-center justified-center">
         <span class="bg-primary-600 rounded-s-lg text-white border border-primary-600 cursor-pointer {{$p_button}} hover:bg-primary-800" type="button">Examinar</span>
-        <span class="flex flex-1 flex-nowrap text-nowrap rounded-e-lg border border-gray-500 border-l-0 cursor-pointer truncate text-ellipsis overflow-hidden {{$p_text}}">{{$slot}}</span>
+        <span class="flex-1 rounded-e-lg border border-gray-500 border-l-0 cursor-pointer text-ellipsis overflow-hidden p-2.5 text-sm whitespace-nowrap {{$p_text}}">{{$slot}}</span>
     </div>
     <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'hidden']) !!} type="file" accept="image/*">
     <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2" x-show="uploading">
