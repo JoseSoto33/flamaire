@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Livewire\AdminCategories;
+use App\Livewire\AdminPreguntas;
 use App\Livewire\FormAuth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth.session'])->group(function () {
     Route::get('/dashboard/', [AdminController::class, 'index'])->name('dashboard')->lazy();
     Route::get('/admin-categorias/{id?}/', AdminCategories::class)->name('admin-categorias')->lazy();
+    Route::get('/admin-preguntas/', AdminPreguntas::class)->name('admin-preguntas')->lazy();
 
     Route::get('/logout/', [AuthController::class, 'logout'])->name('user-logout');
 });
