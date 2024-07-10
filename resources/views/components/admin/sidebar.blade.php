@@ -46,6 +46,14 @@
                     <span class="ms-3" x-show="sidebar">Categorías</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('admin-preguntas') }}/" wire:navigate.hover class="flex items-center p-2 text-white rounded-lg hover:text-tertiary hover:bg-secondary-200 group">
+                    <svg class="w-5 h-5 text-white transition duration-75 group-hover:text-tertiary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 8h10M9 12h10M9 16h10M4.99 8H5m-.02 4h.01m0 4H5"/>
+                    </svg>                      
+                    <span class="ms-3" x-show="sidebar">Preguntas Frecuentes</span>
+                </a>
+            </li>
         </ul>
         <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
             <li>

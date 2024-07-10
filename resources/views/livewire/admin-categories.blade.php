@@ -396,7 +396,7 @@
                             </div>
                         </div>
                         @endif
-                        <div class="w-full flex items-center justify-between -mx-2 mb-3">
+                        <div class="w-full flex items-start justify-between -mx-2 mb-3">
                             <div class="w-full mb-1 sm:w-1/3 sm:mb-0 px-2 font-bold text-right">
                                 Categoría:
                             </div>
@@ -404,7 +404,7 @@
                                 {{ $categoryEdit['nombre'] }}
                             </div>
                         </div>
-                        <div class="w-full flex items-center justify-between -mx-2 mb-3">
+                        <div class="w-full flex items-start justify-between -mx-2 mb-3">
                             <div class="w-full mb-1 sm:w-1/3 sm:mb-0 px-2 font-bold text-right">
                                 Status:
                             </div>
@@ -416,7 +416,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="w-full flex items-center justify-between -mx-2 mb-3">
+                        <div class="w-full flex items-start justify-between -mx-2 mb-3">
                             <div class="w-full mb-1 sm:w-1/3 sm:mb-0 px-2 font-bold text-right">
                                 Slug:
                             </div>

@@ -24,6 +24,13 @@ class PreguntaFrecuente extends Model
     protected $primaryKey = "id";
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['pregunta', 'respuesta', 'status'];
+
+    /**
      * The model's default values for attributes.
      *
      * @var array

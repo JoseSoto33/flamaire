@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\Categoria;
 use App\Models\MetaData;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
@@ -324,7 +323,7 @@ class AdminCategories extends Component
         if (!empty($metaData)) $metaData->delete();
 
         $this->reset('id_categoria', 'categoryDelete');
-
+        $this->resetPage();
         $this->dispatch('data-deleted');        
     }
 
