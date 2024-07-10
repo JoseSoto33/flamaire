@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\Categorias\CategoryCreateForm;
+use App\Livewire\Forms\Categorias\CategoryEditForm;
 use App\Models\Categoria;
 use App\Models\MetaData;
 use Illuminate\Support\Facades\Storage;
@@ -26,48 +28,11 @@ class AdminCategories extends Component
     public $currentCategory = null;
     public $currentMetaData = null;
 
-    public $categoryAdd = [
-        'nombre' => '',
-        'status' => null
-    ];
+    public CategoryCreateForm $categoryAdd;
+    public CategoryEditForm $categoryEdit;
 
-    public $addUrlImageKey;
-    public $addUrlImage;
-
-    public $addMetaData = [
-        'row_id' => '', 
-        'table_name' => 'categorias', 
-        'slug' => '',
-        'meta_title' => '',
-        'meta_description' => '',
-        'titulo_pestania' => '',
-        'titulo_header' => '',
-        'titulo' => '',
-        'titulo_area_categorias' => '',
-        'descripcion_area_categorias' => '',
-        'descripcion' => '',
-        'descripcion_detallada' => '',
-        'status_meta_title' => false,
-        'status_meta_description' => false,
-        'status_titulo_pestania' => false,
-        'status_titulo_header' => false,
-        'status_titulo' => false,
-        'status_titulo_area_categorias' => false,
-        'status_descripcion_area_categorias' => false,
-        'status_descripcion' => false,
-        'status_descripcion_detallada' => false,
-    ];
-
-    public $categoryEdit = [
-        'nombre' => '',
-        'url_img' => '',
-        'status' => null
-    ]; 
-
-    public $editUrlImageKey;
-    public $editUrlImage;
-
-    public $editMetaData = [
+    public $showCategory;
+    public $showMetaData = [
         'row_id' => '', 
         'table_name' => 'categorias', 
         'slug' => '',
@@ -109,82 +74,40 @@ class AdminCategories extends Component
 
     public function save ()
     {
-        $categoria = Categoria::create([
-            'nombre' => $this->categoryAdd['nombre'],
-            'status' => $this->categoryAdd['status']
-        ]);
-
-        $slug = Str::of($categoria->nombre)->slug('-');
-
-        if ($this->addUrlImage) {
-            $categoria->url_img = $this->addUrlImage->store('categorias');
-            $categoria->save();
-        }
-
-        $metaData = MetaData::create([
-            'row_id' => $categoria->id,
-            'table_name' => 'categorias', 
-            'slug' => !empty($this->addMetaData['slug'])? $this->addMetaData['slug'] : $slug,
-            'meta_title' => $this->addMetaData['meta_title'],
-            'meta_description' => $this->addMetaData['meta_description'],
-            'titulo_pestania' => $this->addMetaData['titulo_pestania'],
-            'titulo_header' => $this->addMetaData['titulo_header'],
-            'titulo' => $this->addMetaData['titulo'],
-            'titulo_area_categorias' => $this->addMetaData['titulo_area_categorias'],
-            'descripcion_area_categorias' => $this->addMetaData['descripcion_area_categorias'],
-            'descripcion' => $this->addMetaData['descripcion'],
-            'descripcion_detallada' => $this->addMetaData['descripcion_detallada'],
-            'status_meta_title' => $this->addMetaData['status_meta_title'],
-            'status_meta_description' => $this->addMetaData['status_meta_description'],
-            'status_titulo_pestania' => $this->addMetaData['status_titulo_pestania'],
-            'status_titulo_header' => $this->addMetaData['status_titulo_header'],
-            'status_titulo' => $this->addMetaData['status_titulo'],
-            'status_titulo_area_categorias' => $this->addMetaData['status_titulo_area_categorias'],
-            'status_descripcion_area_categorias' => $this->addMetaData['status_descripcion_area_categorias'],
-            'status_descripcion' => $this->addMetaData['status_descripcion'],
-            'status_descripcion_detallada' => $this->addMetaData['status_descripcion_detallada'],
-        ]);
-
-        $this->reset('categoryAdd', 'addMetaData', 'addUrlImage');
-        $this->addUrlImageKey = rand();
+        $this->categoryAdd->save();
         $this->resetPage();
-        $this->dispatch('data-saved'); 
+        $this->dispatch('data-saved');
     }
 
     public function show ($idCategoria)
     {
-        $this->reset('categoryEdit', 'editMetaData');
+        $this->reset('showCategory', 'showMetaData');
 
-        $categoria = Categoria::find($idCategoria);
-        $this->id_categoria = $categoria->id;
-        $this->categoryEdit['nombre'] = $categoria->nombre;
-        $this->categoryEdit['url_img'] = $categoria->url_img;
-        $this->categoryEdit['status'] = $categoria->status;
+        $this->showCategory = Categoria::find($idCategoria);
 
         $metaData = MetaData::where('table_name', 'categorias')->where('row_id', $idCategoria)->first();
-
         if ($metaData) {
-            $this->editMetaData['slug'] = $metaData->slug;
-            $this->editMetaData['meta_title'] = $metaData->meta_title;
-            $this->editMetaData['meta_description'] = $metaData->meta_description;
-            $this->editMetaData['titulo_pestania'] = $metaData->titulo_pestania;
-            $this->editMetaData['titulo_header'] = $metaData->titulo_header;
-            $this->editMetaData['titulo'] = $metaData->titulo;
-            $this->editMetaData['titulo_area_categorias'] = $metaData->titulo_area_categorias;
-            $this->editMetaData['descripcion_area_categorias'] = $metaData->descripcion_area_categorias;
-            $this->editMetaData['descripcion'] = $metaData->descripcion;
-            $this->editMetaData['descripcion_detallada'] = $metaData->descripcion_detallada;
-            $this->editMetaData['status_meta_title'] = $metaData->status_meta_title;
-            $this->editMetaData['status_meta_description'] = $metaData->status_meta_description;
-            $this->editMetaData['status_titulo_pestania'] = $metaData->status_titulo_pestania;
-            $this->editMetaData['status_titulo_header'] = $metaData->status_titulo_header;
-            $this->editMetaData['status_titulo'] = $metaData->status_titulo;
-            $this->editMetaData['status_titulo_area_categorias'] = $metaData->status_titulo_area_categorias;
-            $this->editMetaData['status_descripcion_area_categorias'] = $metaData->status_descripcion_area_categorias;
-            $this->editMetaData['status_descripcion'] = $metaData->status_descripcion;
-            $this->editMetaData['status_descripcion_detallada'] = $metaData->status_descripcion_detallada;
+            $this->showMetaData['slug'] = $metaData->slug;
+            $this->showMetaData['meta_title'] = $metaData->meta_title;
+            $this->showMetaData['meta_description'] = $metaData->meta_description;
+            $this->showMetaData['titulo_pestania'] = $metaData->titulo_pestania;
+            $this->showMetaData['titulo_header'] = $metaData->titulo_header;
+            $this->showMetaData['titulo'] = $metaData->titulo;
+            $this->showMetaData['titulo_area_categorias'] = $metaData->titulo_area_categorias;
+            $this->showMetaData['descripcion_area_categorias'] = $metaData->descripcion_area_categorias;
+            $this->showMetaData['descripcion'] = $metaData->descripcion;
+            $this->showMetaData['descripcion_detallada'] = $metaData->descripcion_detallada;
+            $this->showMetaData['status_meta_title'] = $metaData->status_meta_title;
+            $this->showMetaData['status_meta_description'] = $metaData->status_meta_description;
+            $this->showMetaData['status_titulo_pestania'] = $metaData->status_titulo_pestania;
+            $this->showMetaData['status_titulo_header'] = $metaData->status_titulo_header;
+            $this->showMetaData['status_titulo'] = $metaData->status_titulo;
+            $this->showMetaData['status_titulo_area_categorias'] = $metaData->status_titulo_area_categorias;
+            $this->showMetaData['status_descripcion_area_categorias'] = $metaData->status_descripcion_area_categorias;
+            $this->showMetaData['status_descripcion'] = $metaData->status_descripcion;
+            $this->showMetaData['status_descripcion_detallada'] = $metaData->status_descripcion_detallada;
         } else{
-            $this->reset('editMetaData');
+            $this->reset('showMetaData');
         }
 
         $this->dispatch('data-laoded'); 
@@ -193,111 +116,13 @@ class AdminCategories extends Component
     public function edit ($idCategoria) 
     {
         $this->id_categoria = $idCategoria;
-        $categoria = Categoria::find($idCategoria);
-        $this->categoryEdit['nombre'] = $categoria->nombre;
-        $this->categoryEdit['url_img'] = $categoria->url_img;
-        $this->categoryEdit['status'] = $categoria->status;
-
-        $metaData = MetaData::where('table_name', 'categorias')->where('row_id', $idCategoria)->first();
-
-        if ($metaData) {
-            $this->editMetaData['slug'] = $metaData->slug;
-            $this->editMetaData['meta_title'] = $metaData->meta_title;
-            $this->editMetaData['meta_description'] = $metaData->meta_description;
-            $this->editMetaData['titulo_pestania'] = $metaData->titulo_pestania;
-            $this->editMetaData['titulo_header'] = $metaData->titulo_header;
-            $this->editMetaData['titulo'] = $metaData->titulo;
-            $this->editMetaData['titulo_area_categorias'] = $metaData->titulo_area_categorias;
-            $this->editMetaData['descripcion_area_categorias'] = $metaData->descripcion_area_categorias;
-            $this->editMetaData['descripcion'] = $metaData->descripcion;
-            $this->editMetaData['descripcion_detallada'] = $metaData->descripcion_detallada;
-            $this->editMetaData['status_meta_title'] = $metaData->status_meta_title;
-            $this->editMetaData['status_meta_description'] = $metaData->status_meta_description;
-            $this->editMetaData['status_titulo_pestania'] = $metaData->status_titulo_pestania;
-            $this->editMetaData['status_titulo_header'] = $metaData->status_titulo_header;
-            $this->editMetaData['status_titulo'] = $metaData->status_titulo;
-            $this->editMetaData['status_titulo_area_categorias'] = $metaData->status_titulo_area_categorias;
-            $this->editMetaData['status_descripcion_area_categorias'] = $metaData->status_descripcion_area_categorias;
-            $this->editMetaData['status_descripcion'] = $metaData->status_descripcion;
-            $this->editMetaData['status_descripcion_detallada'] = $metaData->status_descripcion_detallada;
-        } else{
-            $this->reset('editMetaData');
-        }      
+        $this->categoryEdit->edit($idCategoria);     
         $this->dispatch('data-laoded'); 
     }
 
     public function update ()
-    {
-        $categoria = Categoria::find($this->id_categoria);
-        $update = [
-            'nombre' => $this->categoryEdit['nombre'],
-            'status' => $this->categoryEdit['status']
-        ];
-                
-        if (!empty($this->currentCategory)) $update['id_categoria_padre'] = $this->currentCategory->id;
-        
-        $categoria->update($update);
-        
-        if ($this->editUrlImage) {
-            if (!empty($categoria->url_img)) 
-                Storage::delete($categoria->url_img);
-
-            $categoria->url_img = $this->editUrlImage->store('categorias');
-            $categoria->save();
-        }
-
-        $metaData = MetaData::where('table_name', 'categorias')->where('row_id', $this->id_categoria)->first();
-
-        if ($metaData) {
-            $metaData->update([
-                'slug' => $this->editMetaData['slug'],
-                'meta_title' => $this->editMetaData['meta_title'],
-                'meta_description' => $this->editMetaData['meta_description'],
-                'titulo_pestania' => $this->editMetaData['titulo_pestania'],
-                'titulo_header' => $this->editMetaData['titulo_header'],
-                'titulo' => $this->editMetaData['titulo'],
-                'titulo_area_categorias' => $this->editMetaData['titulo_area_categorias'],
-                'descripcion_area_categorias' => $this->editMetaData['descripcion_area_categorias'],
-                'descripcion' => $this->editMetaData['descripcion'],
-                'descripcion_detallada' => $this->editMetaData['descripcion_detallada'],
-                'status_meta_title' => $this->editMetaData['status_meta_title'],
-                'status_meta_description' => $this->editMetaData['status_meta_description'],
-                'status_titulo_pestania' => $this->editMetaData['status_titulo_pestania'],
-                'status_titulo_header' => $this->editMetaData['status_titulo_header'],
-                'status_titulo' => $this->editMetaData['status_titulo'],
-                'status_titulo_area_categorias' => $this->editMetaData['status_titulo_area_categorias'],
-                'status_descripcion_area_categorias' => $this->editMetaData['status_descripcion_area_categorias'],
-                'status_descripcion' => $this->editMetaData['status_descripcion'],
-                'status_descripcion_detallada' => $this->editMetaData['status_descripcion_detallada'],
-            ]);
-        } else {
-            $metaData = MetaData::create([
-                'row_id' => $categoria->id,
-                'table_name' => 'categorias', 
-                'slug' => $this->editMetaData['slug'],
-                'meta_title' => $this->editMetaData['meta_title'],
-                'meta_description' => $this->editMetaData['meta_description'],
-                'titulo_pestania' => $this->editMetaData['titulo_pestania'],
-                'titulo_header' => $this->editMetaData['titulo_header'],
-                'titulo' => $this->editMetaData['titulo'],
-                'titulo_area_categorias' => $this->editMetaData['titulo_area_categorias'],
-                'descripcion_area_categorias' => $this->editMetaData['descripcion_area_categorias'],
-                'descripcion' => $this->editMetaData['descripcion'],
-                'descripcion_detallada' => $this->editMetaData['descripcion_detallada'],
-                'status_meta_title' => $this->editMetaData['status_meta_title'],
-                'status_meta_description' => $this->editMetaData['status_meta_description'],
-                'status_titulo_pestania' => $this->editMetaData['status_titulo_pestania'],
-                'status_titulo_header' => $this->editMetaData['status_titulo_header'],
-                'status_titulo' => $this->editMetaData['status_titulo'],
-                'status_titulo_area_categorias' => $this->editMetaData['status_titulo_area_categorias'],
-                'status_descripcion_area_categorias' => $this->editMetaData['status_descripcion_area_categorias'],
-                'status_descripcion' => $this->editMetaData['status_descripcion'],
-                'status_descripcion_detallada' => $this->editMetaData['status_descripcion_detallada'],
-            ]);
-        }
-
-        $this->reset('id_categoria', 'categoryEdit', 'editMetaData', 'editUrlImage');
-        $this->editUrlImageKey = rand();
+    {        
+        $this->categoryEdit->update(); 
         $this->dispatch('data-updated'); 
     }
 

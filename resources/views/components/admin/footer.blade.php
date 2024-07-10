@@ -4,7 +4,7 @@
             Portal de contenido para adultos, exclusivamente para mayores de 18 años. Todos nuestros usuarios han reconocido tener mínimo 18 años.
         </p>
         <p class="w-full text-primary-300 text-center font-sm mb-4">
-            No nos hacemos responsables de ningún servicio que esté anunciado en la web.
+            Flamaire no se hace responsable de ningún anuncio publicado en la web.
         </p>
         <p class="w-full text-xs text-primary-300 text-center font-light font-serif">
             Copyright © 2024. All rights reserved.

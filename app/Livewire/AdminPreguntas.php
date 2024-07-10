@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\Preguntas\QuestionCreateForm;
+use App\Livewire\Forms\Preguntas\QuestionEditForm;
 use App\Models\PreguntaFrecuente;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -18,13 +20,10 @@ class AdminPreguntas extends Component
 
     public $id_pregunta;
 
-    public $preguntaAdd = [
-        'pregunta' => '',
-        'respuesta' => '',
-        'status' => null
-    ];
+    public QuestionCreateForm $preguntaAdd;
+    public QuestionEditForm $preguntaEdit;
 
-    public $preguntaEdit = [
+    public $showPregunta = [
         'pregunta' => '',
         'respuesta' => '',
         'status' => null
@@ -43,53 +42,32 @@ class AdminPreguntas extends Component
 
     public function save ()
     {
-        $pregunta = PreguntaFrecuente::create([
-            'pregunta' => $this->preguntaAdd['pregunta'],
-            'respuesta' => $this->preguntaAdd['respuesta'],
-            'status' => $this->preguntaAdd['status']
-        ]);
-
-        $this->reset('preguntaAdd');
+        $this->preguntaAdd->save();
         $this->resetPage();
         $this->dispatch('data-saved'); 
     }
 
     public function show ($idPregunta)
     {
-        $this->reset('preguntaEdit');
+        $this->reset('showPregunta');
 
         $pregunta = PreguntaFrecuente::find($idPregunta);
-        $this->id_pregunta = $pregunta->id;
-        $this->preguntaEdit['pregunta'] = $pregunta->pregunta;
-        $this->preguntaEdit['respuesta'] = $pregunta->respuesta;
-        $this->preguntaEdit['status'] = $pregunta->status;
+        $this->showPregunta['pregunta'] = $pregunta->pregunta;
+        $this->showPregunta['respuesta'] = $pregunta->respuesta;
+        $this->showPregunta['status'] = $pregunta->status;
 
         $this->dispatch('data-laoded'); 
     }
 
     public function edit ($idPregunta) 
     {
-        $this->id_pregunta = $idPregunta;
-        $pregunta = PreguntaFrecuente::find($idPregunta);
-        $this->preguntaEdit['pregunta'] = $pregunta->pregunta;
-        $this->preguntaEdit['respuesta'] = $pregunta->respuesta;
-        $this->preguntaEdit['status'] = $pregunta->status;
-   
+        $this->preguntaEdit->edit($idPregunta);
         $this->dispatch('data-laoded'); 
     }
 
     public function update ()
     {
-        $pregunta = PreguntaFrecuente::find($this->id_pregunta);
-        $update = [
-            'pregunta' => $this->preguntaEdit['pregunta'],
-            'respuesta' => $this->preguntaEdit['respuesta'],
-            'status' => $this->preguntaEdit['status']
-        ];
-                
-        $pregunta->update($update);
-
-        $this->reset('id_pregunta', 'preguntaEdit');
+        $this->preguntaEdit->update();
         $this->dispatch('data-updated'); 
     }
 
