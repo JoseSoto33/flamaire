@@ -1,5 +1,17 @@
 <div class="w-full relative p-4" 
-    x-data="{ loading: true }" 
+    x-data="{ 
+        loading: true,
+        scrollToTop (id) {
+            const modal = document.querySelector(`#${id}`);
+            if (modal)
+                modal.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 
+        scrollToFirstError () {
+            const firstError = document.querySelector('.form-error-msg');
+            if (firstError)
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }" 
     x-on:data-laoded="loading = false" 
     x-on:data-saved="loading = false; modalAdd = false;" 
     x-on:data-updated="loading = false; modalEdit = false;" 
@@ -117,7 +129,7 @@
                             Pregunta:
                         </div>
                         <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
-                            {{ $preguntaEdit['pregunta'] }}
+                            {{ $showPregunta['pregunta'] }}
                         </div>
                     </div>
                     <div class="w-full flex items-start justify-between -mx-2 mb-3">
@@ -125,7 +137,7 @@
                             Respuesta:
                         </div>
                         <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
-                            {{ $preguntaEdit['respuesta'] }}
+                            {{ $showPregunta['respuesta'] }}
                         </div>
                     </div>
                     <div class="w-full flex items-start justify-between -mx-2 mb-3">
@@ -133,7 +145,7 @@
                             Status:
                         </div>
                         <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
-                            @if ($preguntaEdit['status'])
+                            @if ($showPregunta['status'])
                             Activo
                             @else
                             Inactivo
@@ -153,7 +165,7 @@
     {{-- Modal detalles --}}
 
     {{-- Modal agregar --}}
-    <div x-show='modalAdd' class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full inset-0 min-h-screen max-h-full bg-black bg-opacity-80 transition-opacity"
+    <div x-show='modalAdd' id="modalAdd" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full inset-0 min-h-screen max-h-full bg-black bg-opacity-80 transition-opacity"
         aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="relative p-4 w-full max-w-2xl max-h-full mx-auto">
             <!-- Modal content -->
@@ -163,24 +175,27 @@
                     <h3 class="w-full text-2xl text-center font-semibold text-black">
                         Nueva Pregunta Frecuente
                     </h3>
+                    <p class="w-full text-sm text-left mt-2 font-medium text-black">
+                        Para agregar palabras resaltadas, utilice "[[" y "]]" para encerrar la palabra que quiere resaltar. Por ejemplo: [[detallado]]; esto hará que la palabra aparezca <span class="font-bold text-primary-600 inline">resaltada</span>.
+                    </p>
                 </div>
                 <!-- Modal body -->
                 <div class="p-4 md:p-5 space-y-4 relative">
-                    <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
-                        <x-loading size="md"></x-loading>
-                    </div>
-                    <form wire:submit.prevent="save" @submit="loading = true">
+                    <form wire:submit.prevent="save" x-on:submit="scrollToTop('modalAdd')">
+                        <div wire:loading class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10">
+                            <x-loading size="md"></x-loading>
+                        </div>
                         <div class="w-full mb-2 mt-4 relative">
                             <label for="pregunta" class="form-label">Pregunta:</label>
                             <x-forms.input type="test" wire:model="preguntaAdd.pregunta" id="pregunta" />
-                            @error('pregunta') 
+                            @error('preguntaAdd.pregunta') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                         </div>
                         <div class="w-full mb-4 mt-6 relative">
                             <label for="respuesta" class="form-label">Respuesta:</label>
                             <x-forms.textarea wire:model="preguntaAdd.respuesta" id="respuesta"></x-forms.textarea>
-                            @error('respuesta') 
+                            @error('preguntaAdd.respuesta') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                         </div>
@@ -188,7 +203,7 @@
                             <label for="status" class="form-label-line">Status:</label>
                             <x-forms.radio-button wire:model='preguntaAdd.status' id="activo" value="1">Activo</x-forms.radio-button>
                             <x-forms.radio-button wire:model='preguntaAdd.status' id="inactivo" value="0">Inactivo</x-forms.radio-button>
-                            @error('status') 
+                            @error('preguntaAdd.status') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                             @if($errors->has('error'))
@@ -209,7 +224,7 @@
     {{-- Modal agregar --}}
 
     {{-- Modal editar --}}
-    <div x-show='modalEdit' class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full inset-0 min-h-screen max-h-full bg-black bg-opacity-80 transition-opacity"
+    <div x-show='modalEdit' id="modalEdit" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full inset-0 min-h-screen max-h-full bg-black bg-opacity-80 transition-opacity"
         aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="relative p-4 w-full max-w-2xl max-h-full mx-auto">
             <!-- Modal content -->
@@ -219,24 +234,27 @@
                     <h3 class="w-full text-2xl text-center font-semibold text-black">
                         Editar Pregunta Frecuente
                     </h3>
+                    <p class="w-full text-sm text-left mt-2 font-medium text-black">
+                        Para agregar palabras resaltadas, utilice "[[" y "]]" para encerrar la palabra que quiere resaltar. Por ejemplo: [[detallado]]; esto hará que la palabra aparezca <span class="font-bold text-primary-600 inline">resaltada</span>.
+                    </p>
                 </div>
                 <!-- Modal body -->
                 <div class="p-4 md:p-5 space-y-4 relative">
-                    <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
-                        <x-loading size="md"></x-loading>
-                    </div>
-                    <form wire:submit.prevent="update" @submit="loading = true">
+                    <form wire:submit.prevent="update" x-on:submit="scrollToTop('modalAdd')">
+                        <div wire:loading class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
+                            <x-loading size="md"></x-loading>
+                        </div>
                         <div class="w-full mb-2 mt-4 relative">
                             <label for="edit-pregunta" class="form-label">Pregunta:</label>
                             <x-forms.input type="test" wire:model="preguntaEdit.pregunta" id="edit-pregunta" />
-                            @error('pregunta') 
+                            @error('preguntaEdit.pregunta') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                         </div>
                         <div class="w-full mb-4 mt-6 relative">
                             <label for="edit-respuesta" class="form-label">Respuesta:</label>
                             <x-forms.textarea wire:model="preguntaEdit.respuesta" id="edit-respuesta"></x-forms.textarea>
-                            @error('respuesta') 
+                            @error('preguntaEdit.respuesta') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                         </div>
@@ -244,7 +262,7 @@
                             <label for="status" class="form-label-line">Status:</label>
                             <x-forms.radio-button wire:model='preguntaEdit.status' id="edit-activo" value="1">Activo</x-forms.radio-button>
                             <x-forms.radio-button wire:model='preguntaEdit.status' id="edit-inactivo" value="0">Inactivo</x-forms.radio-button>
-                            @error('status') 
+                            @error('preguntaEdit.status') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                             @if($errors->has('error'))
@@ -263,4 +281,38 @@
         </div>
     </div>
     {{-- Modal editar --}}
+
+    {{-- Modal eliminar --}}
+    <div x-show='modalDelete' class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full inset-0 min-h-screen max-h-full bg-black bg-opacity-80 transition-opacity"
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="relative p-4 w-full max-w-2xl max-h-full mx-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex flex-col items-center justify-between px-4 py-2 md:p-5 rounded-t dark:border-gray-600">
+                    <h3 class="w-full text-2xl text-center font-semibold text-black">
+                        Eliminar Pregunta Frecuente
+                    </h3>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 relative">
+                    <form wire:submit.prevent="destroy">
+                        <div wire:loading class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
+                            <x-loading size="md"></x-loading>
+                        </div>
+                        <div class="w-full mb-2 mt-4 relative">
+                            <p class="w-full text-left">¿Está seguro de eliminar la pregunta <span class="font-bold">"{{ $preguntaDelete['pregunta'] }}"</span>? Todos los datos sobre esta categoría serán borrados permanetemente de la base de datos.</p>
+                        </div>
+                        <div class="w-full mt-8 flex items-center justify-end gap-x-2">
+                            <x-button type="submit" btn_type="secondary">Eliminar</x-button>
+                            <x-button btn_type="outline" type="button" x-on:click="modalDelete = false">
+                                Cancelar
+                            </x-button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- Modal eliminar --}}
 </div>
