@@ -36,9 +36,9 @@ class Factura extends Model
     /**
      * Obtiene la sesión a la que pertenece la factura
      */
-    public function sesion(): BelongsTo
+    public function usuario(): BelongsTo
     {
-        return $this->belongsTo(Sesion::class, 'id_sesion');
+        return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
     /**

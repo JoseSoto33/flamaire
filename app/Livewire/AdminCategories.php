@@ -5,14 +5,17 @@ namespace App\Livewire;
 use App\Models\Categoria;
 use App\Models\MetaData;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 #[Layout('components.layouts.layout-admin')] 
 class AdminCategories extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     public $title = null;
     public $search = null;
@@ -28,6 +31,9 @@ class AdminCategories extends Component
         'nombre' => '',
         'status' => null
     ];
+
+    public $addUrlImageKey;
+    public $addUrlImage;
 
     public $addMetaData = [
         'row_id' => '', 
@@ -55,8 +61,12 @@ class AdminCategories extends Component
 
     public $categoryEdit = [
         'nombre' => '',
+        'url_img' => '',
         'status' => null
     ]; 
+
+    public $editUrlImageKey;
+    public $editUrlImage;
 
     public $editMetaData = [
         'row_id' => '', 
@@ -105,10 +115,17 @@ class AdminCategories extends Component
             'status' => $this->categoryAdd['status']
         ]);
 
+        $slug = Str::of($categoria->nombre)->slug('-');
+
+        if ($this->addUrlImage) {
+            $categoria->url_img = $this->addUrlImage->store('categorias');
+            $categoria->save();
+        }
+
         $metaData = MetaData::create([
             'row_id' => $categoria->id,
             'table_name' => 'categorias', 
-            'slug' => $this->addMetaData['slug'],
+            'slug' => !empty($this->addMetaData['slug'])? $this->addMetaData['slug'] : $slug,
             'meta_title' => $this->addMetaData['meta_title'],
             'meta_description' => $this->addMetaData['meta_description'],
             'titulo_pestania' => $this->addMetaData['titulo_pestania'],
@@ -129,9 +146,10 @@ class AdminCategories extends Component
             'status_descripcion_detallada' => $this->addMetaData['status_descripcion_detallada'],
         ]);
 
-        $this->reset('categoryAdd', 'addMetaData');
+        $this->reset('categoryAdd', 'addMetaData', 'addUrlImage');
+        $this->addUrlImageKey = rand();
         $this->resetPage();
-        $this->dispatch('data-laoded'); 
+        $this->dispatch('data-saved'); 
     }
 
     public function show ($idCategoria)
@@ -141,6 +159,7 @@ class AdminCategories extends Component
         $categoria = Categoria::find($idCategoria);
         $this->id_categoria = $categoria->id;
         $this->categoryEdit['nombre'] = $categoria->nombre;
+        $this->categoryEdit['url_img'] = $categoria->url_img;
         $this->categoryEdit['status'] = $categoria->status;
 
         $metaData = MetaData::where('table_name', 'categorias')->where('row_id', $idCategoria)->first();
@@ -177,6 +196,7 @@ class AdminCategories extends Component
         $this->id_categoria = $idCategoria;
         $categoria = Categoria::find($idCategoria);
         $this->categoryEdit['nombre'] = $categoria->nombre;
+        $this->categoryEdit['url_img'] = $categoria->url_img;
         $this->categoryEdit['status'] = $categoria->status;
 
         $metaData = MetaData::where('table_name', 'categorias')->where('row_id', $idCategoria)->first();
@@ -214,10 +234,18 @@ class AdminCategories extends Component
             'nombre' => $this->categoryEdit['nombre'],
             'status' => $this->categoryEdit['status']
         ];
-
+                
         if (!empty($this->currentCategory)) $update['id_categoria_padre'] = $this->currentCategory->id;
-
+        
         $categoria->update($update);
+        
+        if ($this->editUrlImage) {
+            if (!empty($categoria->url_img)) 
+                Storage::delete($categoria->url_img);
+
+            $categoria->url_img = $this->editUrlImage->store('categorias');
+            $categoria->save();
+        }
 
         $metaData = MetaData::where('table_name', 'categorias')->where('row_id', $this->id_categoria)->first();
 
@@ -269,8 +297,9 @@ class AdminCategories extends Component
             ]);
         }
 
-        $this->reset('id_categoria', 'categoryEdit', 'editMetaData');
-        $this->dispatch('data-laoded'); 
+        $this->reset('id_categoria', 'categoryEdit', 'editMetaData', 'editUrlImage');
+        $this->editUrlImageKey = rand();
+        $this->dispatch('data-updated'); 
     }
 
     public function delete ($idCategoria)
@@ -288,12 +317,15 @@ class AdminCategories extends Component
         $categoria = Categoria::find($this->id_categoria);
         $metaData = MetaData::where('table_name', 'categorias')->where('row_id', $this->id_categoria)->first();
 
+        if (!empty($categoria->url_img)) 
+            Storage::delete($categoria->url_img);
+
         $categoria->delete();
         if (!empty($metaData)) $metaData->delete();
 
         $this->reset('id_categoria', 'categoryDelete');
 
-        $this->dispatch('data-laoded');        
+        $this->dispatch('data-deleted');        
     }
 
     public function render()

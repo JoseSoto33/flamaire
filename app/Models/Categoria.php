@@ -32,7 +32,7 @@ class Categoria extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre', 'status'];
+    protected $fillable = ['nombre', 'url_img', 'status'];
 
     /**
      * The model's default values for attributes.

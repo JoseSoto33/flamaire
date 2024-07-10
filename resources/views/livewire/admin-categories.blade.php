@@ -1,256 +1,274 @@
-<div class="w-full relative p-4" x-data="{ loading: true }" x-on:data-laoded="loading = false">
+<div class="w-full relative p-4" 
+    x-data="{ loading: true }" 
+    x-on:data-laoded="loading = false" 
+    x-on:data-saved="loading = false; modalAdd = false;" 
+    x-on:data-updated="loading = false; modalEdit = false;" 
+    x-on:data-deleted="loading = false; modalDelete = false;">
     <h1 class="w-full p-4 mb-8 text-4xl text-center font-semibold rounded-lg shadow-lg">
         {{ $title }}
     </h1>
 
     {{-- Datos de categoría  --}}
     @if (!empty($currentCategory))
-    <div class="w-full flex flex-wrap items-center justify-between -mx-2 max-sm:mb-3">
-        <div class="w-full sm:w-1/3 px-2 flex items-center justify-start sm:justify-end">
-            <h3 class="w-full leading-normal text-xl font-bold sm:text-right">Categoría:</h3>
-        </div>
-        <div class="w-full leading-normal sm:w-2/3 px-2 flex items-center justify-start">
-            <span class="leading-normal">{{$currentCategory->nombre}}</span>
-        </div>
-    </div>
-    <div class="w-full flex flex-wrap items-center justify-between -mx-2 max-sm:mb-3">
-        <div class="w-full sm:w-1/3 px-2 flex items-center justify-start sm:justify-end">
-            <h3 class="w-full leading-normal text-xl font-bold sm:text-right">Status:</h3>
-        </div>
-        <div class="w-full leading-normal sm:w-2/3 px-2 flex items-center justify-start">
-            <span class="leading-normal">{{$currentCategory->status? 'Activo' : 'Inactivo'}}</span>
-        </div>
-    </div>
-
-        {{-- Metadatos --}}
-        @if (!empty($currentMetaData))
-        <div class="w-full flex flex-wrap items-center justify-between -mx-2 mb-3">
-            <div class="w-full sm:w-1/3 px-2 flex items-center justify-start sm:justify-end">
-                <h3 class="w-full leading-normal text-xl font-bold sm:text-right">Slug:</h3>
-            </div>
-            <div class="w-full leading-normal sm:w-2/3 px-2 flex items-center justify-start">
-                <span class="leading-normal">{{!empty($currentMetaData->slug)? $currentMetaData->slug : 'Sin Slug'}}</span>
+    <div class="w-full flex flex-wrap items-start justify-center max-md:mb-3">
+        <div class="w-full md:w-1/3 flex items-center justify-center md:justify-start">
+            <div class="w-full max-w-sm rounded-lg overflow-hidden mb-2 border border-gray-500">
+                <img class="w-full" src="{{Storage::url($currentCategory->url_img)}}" alt="Preview" >
             </div>
         </div>
-
-        {{-- Acordeón --}}
-        <div id="accordion-open" class="my-8 w-full max-w-4xl mx-auto shadow-md" x-data="{ open1: false }">
-            <h2 id="accordion-open-heading-1">
-                <button type="button"
-                    :class="open1 ? 'flex items-center justify-between w-full p-5 font-medium rtl:text-right text-white bg-primary-600 border border-primary-600 hover:bg-primary-700 hover:border-primary-700 gap-3' : 'flex items-center justify-between w-full p-5 font-medium rtl:text-right text-primary-600 border border-primary-600 hover:bg-primary-600 hover:text-white gap-3'"
-                    x-on:click="open1 = !open1">
-                    <span class="flex items-center">
-                        <svg class="w-5 h-5 me-2 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-width="2" d="M3 11h18M3 15h18m-9-4v8m-8 0h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
-                        </svg> Meta datos de la categoría:
-                    </span>
-                    <svg data-accordion-icon :class="!open1 ? 'w-3 h-3 rotate-180 shrink-0' : 'w-3 h-3 shrink-0'" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" d="M9 5 5 1 1 5" />
-                    </svg>
-                </button>
-            </h2>
-            <div id="accordion-open-body-1" x-transition x-ref="body1" x-show="open1" x-collapse>
-                <div class="p-0 border border-primary-600">
-                    {{-- Tabla --}}
-                    <div class="relative overflow-x-auto shadow-md">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                            <thead class="text-xs text-secondary-300 uppercase bg-tertiary">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Campo
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Valor
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Status
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        meta-title
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $currentMetaData->meta_title ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($currentMetaData->status_meta_title)
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        meta-description
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $currentMetaData->meta_description ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($currentMetaData->status_meta_description)
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Título de Pestaña
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $currentMetaData->titulo_pestania ?? '-' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($currentMetaData->status_titulo_pestania)
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Título Header
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $currentMetaData->titulo_header ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($currentMetaData->status_titulo_header)
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Título
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $currentMetaData->titulo ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($currentMetaData->status_titulo)
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Título Área Categorías
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $currentMetaData->titulo_area_categorias ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($currentMetaData->status_titulo_area_categorias)
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Descripción Área Categorías
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $currentMetaData->descripcion_area_categorias ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($currentMetaData->status_descripcion_area_categorias)
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Descripción
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $currentMetaData->descripcion ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($currentMetaData->status_descripcion)
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Descripción Detallada
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $currentMetaData->descripcion_detallada ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($currentMetaData->status_descripcion_detallada)
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                            </tbody>
-                        </table>
-                    </div>
-                    {{-- Tabla --}}
+        
+        <div class="w-full flex flex-col md:w-2/3">
+            <div class="w-full flex flex-wrap items-center justify-between max-md:mb-3">
+                <div class="w-full md:w-1/3 px-2 flex items-center justify-start md:justify-end">
+                    <h3 class="w-full leading-normal text-xl font-bold md:text-right">Categoría:</h3>
+                </div>
+                <div class="w-full leading-normal md:w-2/3 px-2 flex items-center justify-start">
+                    <span class="leading-normal">{{$currentCategory->nombre}}</span>
                 </div>
             </div>
+            <div class="w-full flex flex-wrap items-center justify-between max-md:mb-3">
+                <div class="w-full md:w-1/3 px-2 flex items-center justify-start md:justify-end">
+                    <h3 class="w-full leading-normal text-xl font-bold md:text-right">Status:</h3>
+                </div>
+                <div class="w-full leading-normal md:w-2/3 px-2 flex items-center justify-start">
+                    <span class="leading-normal">{{$currentCategory->status? 'Activo' : 'Inactivo'}}</span>
+                </div>
+            </div>
+                
+            @if (!empty($currentMetaData))
+            <div class="w-full flex flex-wrap items-center justify-between max-md:mb-3">
+                <div class="w-full md:w-1/3 px-2 flex items-center justify-start md:justify-end">
+                    <h3 class="w-full leading-normal text-xl font-bold md:text-right">Slug:</h3>
+                </div>
+                <div class="w-full leading-normal md:w-2/3 px-2 flex items-center justify-start">
+                    <span class="leading-normal">{{!empty($currentMetaData->slug)? $currentMetaData->slug : 'Sin Slug'}}</span>
+                </div>
+            </div>
+            @endif
         </div>
-        {{-- Acordeón --}}
-        @endif
-        {{-- Metadatos --}}
+    </div>
+
+    {{-- Metadatos --}}
+    @if (!empty($currentMetaData))
+
+    {{-- Acordeón --}}
+    <div id="accordion-open" class="my-8 w-full max-w-4xl mx-auto shadow-md" x-data="{ open1: false }">
+        <h2 id="accordion-open-heading-1">
+            <button type="button"
+                :class="open1 ? 'flex items-center justify-between w-full p-5 font-medium rtl:text-right text-white bg-primary-600 border border-primary-600 hover:bg-primary-700 hover:border-primary-700 gap-3' : 'flex items-center justify-between w-full p-5 font-medium rtl:text-right text-primary-600 border border-primary-600 hover:bg-primary-600 hover:text-white gap-3'"
+                x-on:click="open1 = !open1">
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 me-2 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-width="2" d="M3 11h18M3 15h18m-9-4v8m-8 0h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+                    </svg> Meta datos de la categoría:
+                </span>
+                <svg data-accordion-icon :class="!open1 ? 'w-3 h-3 rotate-180 shrink-0' : 'w-3 h-3 shrink-0'" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" d="M9 5 5 1 1 5" />
+                </svg>
+            </button>
+        </h2>
+        <div id="accordion-open-body-1" x-transition x-ref="body1" x-show="open1" x-collapse>
+            <div class="p-0 border border-primary-600">
+                {{-- Tabla --}}
+                <div class="relative overflow-x-auto shadow-md">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                        <thead class="text-xs text-secondary-300 uppercase bg-tertiary">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Campo
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Valor
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    meta-title
+                                </th>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    {{ $currentMetaData->meta_title ?? '' }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    @if ($currentMetaData->status_meta_title)
+                                    <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    @else
+                                    <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>  
+                                    @endif        
+                                </td>
+                            </tr> 
+                            <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    meta-description
+                                </th>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    {{ $currentMetaData->meta_description ?? '' }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    @if ($currentMetaData->status_meta_description)
+                                    <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    @else
+                                    <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>  
+                                    @endif        
+                                </td>
+                            </tr> 
+                            <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    Título de Pestaña
+                                </th>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    {{ $currentMetaData->titulo_pestania ?? '-' }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    @if ($currentMetaData->status_titulo_pestania)
+                                    <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    @else
+                                    <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>  
+                                    @endif        
+                                </td>
+                            </tr> 
+                            <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    Título Header
+                                </th>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    {{ $currentMetaData->titulo_header ?? '' }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    @if ($currentMetaData->status_titulo_header)
+                                    <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    @else
+                                    <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>  
+                                    @endif        
+                                </td>
+                            </tr> 
+                            <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    Título
+                                </th>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    {{ $currentMetaData->titulo ?? '' }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    @if ($currentMetaData->status_titulo)
+                                    <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    @else
+                                    <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>  
+                                    @endif        
+                                </td>
+                            </tr> 
+                            <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    Título Área Categorías
+                                </th>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    {{ $currentMetaData->titulo_area_categorias ?? '' }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    @if ($currentMetaData->status_titulo_area_categorias)
+                                    <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    @else
+                                    <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>  
+                                    @endif        
+                                </td>
+                            </tr> 
+                            <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    Descripción Área Categorías
+                                </th>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    {{ $currentMetaData->descripcion_area_categorias ?? '' }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    @if ($currentMetaData->status_descripcion_area_categorias)
+                                    <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    @else
+                                    <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>  
+                                    @endif        
+                                </td>
+                            </tr> 
+                            <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    Descripción
+                                </th>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    {{ $currentMetaData->descripcion ?? '' }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    @if ($currentMetaData->status_descripcion)
+                                    <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    @else
+                                    <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>  
+                                    @endif        
+                                </td>
+                            </tr> 
+                            <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    Descripción Detallada
+                                </th>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    {{ $currentMetaData->descripcion_detallada ?? '' }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
+                                    @if ($currentMetaData->status_descripcion_detallada)
+                                    <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    @else
+                                    <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>  
+                                    @endif        
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div>
+                {{-- Tabla --}}
+            </div>
+        </div>
+    </div>
+    {{-- Acordeón --}}
+    @endif
+    {{-- Metadatos --}}
     @endif
     {{-- Datos de categoría  --}}
    
@@ -371,19 +389,26 @@
                         <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
                             <x-loading size="md"></x-loading>
                         </div>
+                        @if (!empty($categoryEdit['url_img']))
+                        <div class="w-full flex items-center justify-center -mx-2 mb-3">
+                            <div class="w-full max-w-sm rounded-lg overflow-hidden mb-2 border border-gray-500">
+                                <img class="w-full" src="{{Storage::url($categoryEdit['url_img'])}}" alt="Preview" >
+                            </div>
+                        </div>
+                        @endif
                         <div class="w-full flex items-center justify-between -mx-2 mb-3">
-                            <div class="w-full mb-1 sm:w-1/3 sm:mb-0 p-2 font-bold text-right">
+                            <div class="w-full mb-1 sm:w-1/3 sm:mb-0 px-2 font-bold text-right">
                                 Categoría:
                             </div>
-                            <div class="w-full mb-1 sm:w-2/3 sm:mb-0 p-2">
+                            <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
                                 {{ $categoryEdit['nombre'] }}
                             </div>
                         </div>
                         <div class="w-full flex items-center justify-between -mx-2 mb-3">
-                            <div class="w-full mb-1 sm:w-1/3 sm:mb-0 p-2 font-bold text-right">
+                            <div class="w-full mb-1 sm:w-1/3 sm:mb-0 px-2 font-bold text-right">
                                 Status:
                             </div>
-                            <div class="w-full mb-1 sm:w-2/3 sm:mb-0 p-2">
+                            <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
                                 @if ($categoryEdit['status'])
                                 Activo
                                 @else
@@ -392,10 +417,10 @@
                             </div>
                         </div>
                         <div class="w-full flex items-center justify-between -mx-2 mb-3">
-                            <div class="w-full mb-1 sm:w-1/3 sm:mb-0 p-2 font-bold text-right">
+                            <div class="w-full mb-1 sm:w-1/3 sm:mb-0 px-2 font-bold text-right">
                                 Slug:
                             </div>
-                            <div class="w-full mb-1 sm:w-2/3 sm:mb-0 p-2">
+                            <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
                                 {{ $editMetaData['slug'] ?? 'Sin Slug' }}
                             </div>
                         </div>
@@ -610,7 +635,7 @@
                     <!-- Modal header -->
                     <div class="flex flex-col items-center justify-between px-4 py-2 md:p-5 rounded-t dark:border-gray-600">
                         <h3 class="w-full text-2xl text-center font-semibold text-black">
-                            Categoría
+                            Nueva Categoría
                         </h3>
                     </div>
                     <!-- Modal body -->
@@ -618,12 +643,12 @@
                         <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
                             <x-loading size="md"></x-loading>
                         </div>
-                        <form wire:submit.prevent="save" @submit="modalAdd = false">
+                        <form wire:submit.prevent="save" @submit="loading = true">
                             @if (!empty($currentCategory))
                             <input type="hidden" wire:model="id_categoria_padre">
                             @endif
                             <div class="w-full mb-2 mt-4 relative">
-                                <label for="nombre" class="form-label">Categoría:</label>
+                                <label for="nombre" class="form-label">Nombre de la categoría:</label>
                                 <x-forms.input type="text" wire:model="categoryAdd.nombre" id="nombre" />
                                 @error('nombre') 
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
@@ -647,113 +672,124 @@
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                 @enderror 
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
-                                <div class="flex-1">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
+                                <div class="flex-1 max-sm:w-full">
                                     <label for="meta_title" class="form-label">meta-title:</label>
-                                    <x-forms.input type="text" wire:model="addMetaData.meta_title" id="meta_title" />
+                                    <x-forms.textarea wire:model="addMetaData.meta_title" id="meta_title"></x-forms.textarea>
                                     @error('meta_title') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
-                                <div class="w-24 ml-2">
+                                <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
                                     <x-forms.checkbox-button wire:model='addMetaData.status_meta_title' id="status_meta_title" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
-                                <div class="flex-1">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
+                                <div class="flex-1 max-sm:w-full">
                                     <label for="meta_description" class="form-label">meta-description:</label>
-                                    <x-forms.input type="text" wire:model="addMetaData.meta_description" id="meta_description" />
+                                    <x-forms.textarea wire:model="addMetaData.meta_description" id="meta_description"></x-forms.textarea>
                                     @error('meta_description') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
-                                <div class="w-24 ml-2">
+                                <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
                                     <x-forms.checkbox-button wire:model='addMetaData.status_meta_description' id="status_meta_description" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
-                                <div class="flex-1">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
+                                <div class="flex-1 max-sm:w-full">
                                     <label for="titulo_pestania" class="form-label">Título Pestaña:</label>
-                                    <x-forms.input type="text" wire:model="addMetaData.titulo_pestania" id="titulo_pestania" />
+                                    <x-forms.textarea wire:model="addMetaData.titulo_pestania" id="titulo_pestania"></x-forms.textarea>
                                     @error('titulo_pestania') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
-                                <div class="w-24 ml-2">
+                                <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
                                     <x-forms.checkbox-button wire:model='addMetaData.status_titulo_pestania' id="status_titulo_pestania" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
-                                <div class="flex-1">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
+                                <div class="flex-1 max-sm:w-full">
                                     <label for="titulo_header" class="form-label">Título Header:</label>
-                                    <x-forms.input type="text" wire:model="addMetaData.titulo_header" id="titulo_header" />
+                                    <x-forms.textarea wire:model="addMetaData.titulo_header" id="titulo_header"></x-forms.textarea>
                                     @error('titulo_header') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
-                                <div class="w-24 ml-2">
+                                <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
                                     <x-forms.checkbox-button wire:model='addMetaData.status_titulo_header' id="status_titulo_header" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
-                                <div class="flex-1">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
+                                <div class="flex-1 max-sm:w-full">
                                     <label for="titulo" class="form-label">Título:</label>
-                                    <x-forms.input type="text" wire:model="addMetaData.titulo" id="titulo" />
+                                    <x-forms.textarea wire:model="addMetaData.titulo" id="titulo"></x-forms.textarea>
                                     @error('titulo') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
-                                <div class="w-24 ml-2">
+                                <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
                                     <x-forms.checkbox-button wire:model='addMetaData.status_titulo' id="status_titulo" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
-                                <div class="flex-1">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
+                                <div class="flex-1 max-sm:w-full">
                                     <label for="titulo_area_categorias" class="form-label">Título Área Categorías:</label>
-                                    <x-forms.input type="text" wire:model="addMetaData.titulo_area_categorias" id="titulo_area_categorias" />
+                                    <x-forms.textarea wire:model="addMetaData.titulo_area_categorias" id="titulo_area_categorias"></x-forms.textarea>
                                     @error('titulo_area_categorias') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
-                                <div class="w-24 ml-2">
+                                <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
                                     <x-forms.checkbox-button wire:model='addMetaData.status_titulo_area_categorias' id="status_titulo_area_categorias" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
-                                <div class="flex-1">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
+                                <div class="flex-1 max-sm:w-full">
                                     <label for="descripcion_area_categorias" class="form-label">Descripción Área Categorías:</label>
-                                    <x-forms.input type="text" wire:model="addMetaData.descripcion_area_categorias" id="descripcion_area_categorias" />
+                                    <x-forms.textarea wire:model="addMetaData.descripcion_area_categorias" id="descripcion_area_categorias"></x-forms.textarea>
                                     @error('descripcion_area_categorias') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
-                                <div class="w-24 ml-2">
+                                <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
                                     <x-forms.checkbox-button wire:model='addMetaData.status_descripcion_area_categorias' id="status_descripcion_area_categorias" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
-                                <div class="flex-1">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
+                                <div class="flex-1 max-sm:w-full">
                                     <label for="descripcion" class="form-label">Descripción:</label>
-                                    <x-forms.input type="text" wire:model="addMetaData.descripcion" id="descripcion" />
+                                    <x-forms.textarea wire:model="addMetaData.descripcion" id="descripcion"></x-forms.textarea>
                                     @error('descripcion') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
-                                <div class="w-24 ml-2">
+                                <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
                                     <x-forms.checkbox-button wire:model='addMetaData.status_descripcion' id="status_descripcion" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
-                                <div class="flex-1">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
+                                <div class="flex-1 max-sm:w-full">
                                     <label for="descripcion_detallada" class="form-label">Descripción Detallada:</label>
-                                    <x-forms.input type="text" wire:model="addMetaData.descripcion_detallada" id="descripcion_detallada" />
+                                    <x-forms.textarea wire:model="addMetaData.descripcion_detallada" id="descripcion_detallada"></x-forms.textarea>
                                     @error('descripcion_detallada') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
-                                <div class="w-24 ml-2">
+                                <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
                                     <x-forms.checkbox-button wire:model='addMetaData.status_descripcion_detallada' id="status_descripcion_detallada" value="1">Activo</x-forms.checkbox-button>
                                 </div>
+                            </div>
+                            <div class="w-full mb-2 mt-8 relative">
+                                @if ($addUrlImage)
+                                <div class="w-full max-w-md rounded-lg overflow-hidden mb-2 border border-gray-500">
+                                    <img class="w-full" src="{{$addUrlImage->temporaryUrl()}}" alt="Preview" >
+                                </div>                                    
+                                @endif
+                                <x-forms.input-file wire:model="addUrlImage" id="url_img" wire:key="{{$addUrlImageKey}}">Seleccionar imagen...</x-forms.input-file>
+                                @error('url_img') 
+                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
+                                @enderror 
                             </div>
                             <div class="w-full mt-8 flex items-center justify-end gap-x-2">
                                 <x-button type="submit" btn_type="secondary">guardar</x-button>
@@ -785,7 +821,7 @@
                         <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
                             <x-loading size="md"></x-loading>
                         </div>
-                        <form wire:submit.prevent="update" @submit="modalEdit = false">
+                        <form wire:submit.prevent="update" @submit="loading = true">
                             <div class="w-full mb-2 mt-4 relative">
                                 <label for="nombre" class="form-label">Categoría:</label>
                                 <x-forms.input type="text" wire:model="categoryEdit.nombre" id="nombre" />
@@ -919,6 +955,21 @@
                                     <x-forms.checkbox-button wire:model='editMetaData.status_descripcion_detallada' id="edit-status_descripcion_detallada" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
+                            <div class="w-full mb-2 mt-8 relative">
+                                @if ($editUrlImage)
+                                <div class="w-full max-w-md rounded-lg overflow-hidden mb-2 border border-gray-500">
+                                    <img class="w-full" src="{{$editUrlImage->temporaryUrl()}}" alt="Preview" >
+                                </div> 
+                                @elseif (!empty($categoryEdit['url_img']))
+                                <div class="w-full max-w-md rounded-lg overflow-hidden mb-2 border border-gray-500">
+                                    <img class="w-full" src="{{Storage::url($categoryEdit['url_img'])}}" alt="Preview" >
+                                </div>
+                                @endif
+                                <x-forms.input-file wire:model="editUrlImage" id="edit-url_img" wire:key="{{$editUrlImageKey}}">Seleccionar imagen...</x-forms.input-file>
+                                @error('url_img') 
+                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
+                                @enderror 
+                            </div>
                             <div class="w-full mt-8 flex items-center justify-end gap-x-2">
                                 <x-button type="submit" btn_type="secondary">guardar</x-button>
                                 <x-button btn_type="outline" type="button" x-on:click="modalEdit = false">
@@ -949,7 +1000,7 @@
                         <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
                             <x-loading size="md"></x-loading>
                         </div>
-                        <form wire:submit.prevent="destroy" @submit="modalDelete = false">
+                        <form wire:submit.prevent="destroy" @submit="loading = true">
                             <div class="w-full mb-2 mt-4 relative">
                                 <p class="w-full text-left">¿Está seguro de eliminar la categoría <span class="font-bold">"{{ $categoryDelete['nombre'] }}"</span>? Todos los datos sobre esta categoría serán borrados permanetemente de la base de datos.</p>
                             </div>
