@@ -1,5 +1,17 @@
 <div class="w-full relative p-4" 
-    x-data="{ loading: true }" 
+    x-data="{ 
+        loading: true,
+        scrollToTop (id) {
+            const modal = document.querySelector(`#${id}`);
+            if (modal)
+                modal.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 
+        scrollToFirstError () {
+            const firstError = document.querySelector('.form-error-msg');
+            if (firstError)
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }" 
     x-on:data-laoded="loading = false" 
     x-on:data-saved="loading = false; modalAdd = false;" 
     x-on:data-updated="loading = false; modalEdit = false;" 
@@ -284,7 +296,7 @@
             @endif
         </div>
 
-        <div class="w-full mt-4 mb-2 sm:w-1/2">
+        <div class="w-full mt-4 mb-2 max-w-sm">
             <x-forms.input class="w-full" placeholder="Buscar..." wire:model.live="search" />
         </div>
 
@@ -389,10 +401,10 @@
                         <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
                             <x-loading size="md"></x-loading>
                         </div>
-                        @if (!empty($categoryEdit['url_img']))
+                        @if (!empty($showCategory->url_img))
                         <div class="w-full flex items-center justify-center -mx-2 mb-3">
                             <div class="w-full max-w-sm rounded-lg overflow-hidden mb-2 border border-gray-500">
-                                <img class="w-full" src="{{Storage::url($categoryEdit['url_img'])}}" alt="Preview" >
+                                <img class="w-full" src="{{Storage::url($showCategory->url_img)}}" alt="Preview" >
                             </div>
                         </div>
                         @endif
@@ -401,7 +413,7 @@
                                 Categoría:
                             </div>
                             <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
-                                {{ $categoryEdit['nombre'] }}
+                                {{ !empty($showCategory)? $showCategory->nombre : '' }}
                             </div>
                         </div>
                         <div class="w-full flex items-start justify-between -mx-2 mb-3">
@@ -409,7 +421,7 @@
                                 Status:
                             </div>
                             <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
-                                @if ($categoryEdit['status'])
+                                @if (!empty($showCategory) && $showCategory->status)
                                 Activo
                                 @else
                                 inactivo
@@ -421,7 +433,7 @@
                                 Slug:
                             </div>
                             <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
-                                {{ $editMetaData['slug'] ?? 'Sin Slug' }}
+                                {{ $showMetaData['slug'] ?? 'Sin Slug' }}
                             </div>
                         </div>
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -445,10 +457,10 @@
                                             meta-title
                                         </th>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            {{ $editMetaData['meta_title'] ?? 'Sin meta_title' }}
+                                            {{ $showMetaData['meta_title'] ?? 'Sin meta_title' }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            @if ($editMetaData['status_meta_title'])
+                                            @if ($showMetaData['status_meta_title'])
                                             <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -464,10 +476,10 @@
                                             meta-description
                                         </th>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            {{ $editMetaData['meta_description'] ?? '' }}
+                                            {{ $showMetaData['meta_description'] ?? '' }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            @if ($editMetaData['status_meta_description'])
+                                            @if ($showMetaData['status_meta_description'])
                                             <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -483,10 +495,10 @@
                                             Título de Pestaña
                                         </th>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            {{ $editMetaData['titulo_pestania'] ?? '-' }}
+                                            {{ $showMetaData['titulo_pestania'] ?? '-' }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            @if ($editMetaData['status_titulo_pestania'])
+                                            @if ($showMetaData['status_titulo_pestania'])
                                             <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -502,10 +514,10 @@
                                             Título Header
                                         </th>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            {{ $editMetaData['titulo_header'] ?? '' }}
+                                            {{ $showMetaData['titulo_header'] ?? '' }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            @if ($editMetaData['status_titulo_header'])
+                                            @if ($showMetaData['status_titulo_header'])
                                             <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -521,10 +533,10 @@
                                             Título
                                         </th>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            {{ $editMetaData['titulo'] ?? '' }}
+                                            {{ $showMetaData['titulo'] ?? '' }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            @if ($editMetaData['status_titulo'])
+                                            @if ($showMetaData['status_titulo'])
                                             <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -540,10 +552,10 @@
                                             Título Área Categorías
                                         </th>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            {{ $editMetaData['titulo_area_categorias'] ?? '' }}
+                                            {{ $showMetaData['titulo_area_categorias'] ?? '' }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            @if ($editMetaData['status_titulo_area_categorias'])
+                                            @if ($showMetaData['status_titulo_area_categorias'])
                                             <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -559,10 +571,10 @@
                                             Descripción Área Categorías
                                         </th>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            {{ $editMetaData['descripcion_area_categorias'] ?? '' }}
+                                            {{ $showMetaData['descripcion_area_categorias'] ?? '' }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            @if ($editMetaData['status_descripcion_area_categorias'])
+                                            @if ($showMetaData['status_descripcion_area_categorias'])
                                             <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -578,10 +590,10 @@
                                             Descripción
                                         </th>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            {{ $editMetaData['descripcion'] ?? '' }}
+                                            {{ $showMetaData['descripcion'] ?? '' }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            @if ($editMetaData['status_descripcion'])
+                                            @if ($showMetaData['status_descripcion'])
                                             <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -597,10 +609,10 @@
                                             Descripción Detallada
                                         </th>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            {{ $editMetaData['descripcion_detallada'] ?? '' }}
+                                            {{ $showMetaData['descripcion_detallada'] ?? '' }}
                                         </td>
                                         <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                            @if ($editMetaData['status_descripcion_detallada'])
+                                            @if ($showMetaData['status_descripcion_detallada'])
                                             <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -627,7 +639,8 @@
         {{-- Modal detalles --}}
 
         {{-- Modal agregar --}}
-        <div x-show='modalAdd' class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full inset-0 min-h-screen max-h-full bg-black bg-opacity-80 transition-opacity"
+        <div x-show='modalAdd' id="modalAdd"
+            class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full inset-0 min-h-screen max-h-full bg-black bg-opacity-80 transition-opacity"
             aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="relative p-4 w-full max-w-2xl max-h-full mx-auto">
                 <!-- Modal content -->
@@ -640,25 +653,25 @@
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 md:p-5 space-y-4 relative">
-                        <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
-                            <x-loading size="md"></x-loading>
-                        </div>
-                        <form wire:submit.prevent="save" @submit="loading = true">
+                        <form wire:submit.prevent="save" x-on:submit="scrollToTop('modalAdd')">
+                            <div wire:loading class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10">
+                                <x-loading size="md"></x-loading>
+                            </div>
                             @if (!empty($currentCategory))
                             <input type="hidden" wire:model="id_categoria_padre">
                             @endif
                             <div class="w-full mb-2 mt-4 relative">
                                 <label for="nombre" class="form-label">Nombre de la categoría:</label>
                                 <x-forms.input type="text" wire:model="categoryAdd.nombre" id="nombre" />
-                                @error('nombre') 
+                                @error('categoryAdd.nombre') 
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                 @enderror 
                             </div>
-                            <div class="w-full mb-4 mt-6 relative flex gap-1">
+                            <div class="w-full mb-4 mt-6 relative flex gap-1 flex-wrap">
                                 <label for="nombre" class="form-label-line">Status:</label>
                                 <x-forms.radio-button wire:model='categoryAdd.status' id="activo" value="1">Activo</x-forms.radio-button>
                                 <x-forms.radio-button wire:model='categoryAdd.status' id="inactivo" value="0">Inactivo</x-forms.radio-button>
-                                @error('status') 
+                                @error('categoryAdd.status') 
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                 @enderror 
                                 @if($errors->has('error'))
@@ -667,127 +680,127 @@
                             </div>
                             <div class="w-full mb-2 mt-8 relative">
                                 <label for="slug" class="form-label">Slug:</label>
-                                <x-forms.input type="text" wire:model="addMetaData.slug" id="slug" />
-                                @error('slug') 
+                                <x-forms.input type="text" wire:model="categoryAdd.slug" id="slug" />
+                                @error('categoryAdd.slug') 
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                 @enderror 
                             </div>
                             <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
                                 <div class="flex-1 max-sm:w-full">
                                     <label for="meta_title" class="form-label">meta-title:</label>
-                                    <x-forms.textarea wire:model="addMetaData.meta_title" id="meta_title"></x-forms.textarea>
-                                    @error('meta_title') 
+                                    <x-forms.textarea wire:model="categoryAdd.meta_title" id="meta_title"></x-forms.textarea>
+                                    @error('categoryAdd.meta_title') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                    <x-forms.checkbox-button wire:model='addMetaData.status_meta_title' id="status_meta_title" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryAdd.status_meta_title' id="status_meta_title" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
                                 <div class="flex-1 max-sm:w-full">
                                     <label for="meta_description" class="form-label">meta-description:</label>
-                                    <x-forms.textarea wire:model="addMetaData.meta_description" id="meta_description"></x-forms.textarea>
-                                    @error('meta_description') 
+                                    <x-forms.textarea wire:model="categoryAdd.meta_description" id="meta_description"></x-forms.textarea>
+                                    @error('categoryAdd.meta_description') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                    <x-forms.checkbox-button wire:model='addMetaData.status_meta_description' id="status_meta_description" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryAdd.status_meta_description' id="status_meta_description" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
                                 <div class="flex-1 max-sm:w-full">
                                     <label for="titulo_pestania" class="form-label">Título Pestaña:</label>
-                                    <x-forms.textarea wire:model="addMetaData.titulo_pestania" id="titulo_pestania"></x-forms.textarea>
-                                    @error('titulo_pestania') 
+                                    <x-forms.textarea wire:model="categoryAdd.titulo_pestania" id="titulo_pestania"></x-forms.textarea>
+                                    @error('categoryAdd.titulo_pestania') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                    <x-forms.checkbox-button wire:model='addMetaData.status_titulo_pestania' id="status_titulo_pestania" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryAdd.status_titulo_pestania' id="status_titulo_pestania" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
                                 <div class="flex-1 max-sm:w-full">
                                     <label for="titulo_header" class="form-label">Título Header:</label>
-                                    <x-forms.textarea wire:model="addMetaData.titulo_header" id="titulo_header"></x-forms.textarea>
-                                    @error('titulo_header') 
+                                    <x-forms.textarea wire:model="categoryAdd.titulo_header" id="titulo_header"></x-forms.textarea>
+                                    @error('categoryAdd.titulo_header') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                    <x-forms.checkbox-button wire:model='addMetaData.status_titulo_header' id="status_titulo_header" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryAdd.status_titulo_header' id="status_titulo_header" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
                                 <div class="flex-1 max-sm:w-full">
                                     <label for="titulo" class="form-label">Título:</label>
-                                    <x-forms.textarea wire:model="addMetaData.titulo" id="titulo"></x-forms.textarea>
-                                    @error('titulo') 
+                                    <x-forms.textarea wire:model="categoryAdd.titulo" id="titulo"></x-forms.textarea>
+                                    @error('categoryAdd.titulo') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                    <x-forms.checkbox-button wire:model='addMetaData.status_titulo' id="status_titulo" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryAdd.status_titulo' id="status_titulo" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
                                 <div class="flex-1 max-sm:w-full">
                                     <label for="titulo_area_categorias" class="form-label">Título Área Categorías:</label>
-                                    <x-forms.textarea wire:model="addMetaData.titulo_area_categorias" id="titulo_area_categorias"></x-forms.textarea>
-                                    @error('titulo_area_categorias') 
+                                    <x-forms.textarea wire:model="categoryAdd.titulo_area_categorias" id="titulo_area_categorias"></x-forms.textarea>
+                                    @error('categoryAdd.titulo_area_categorias') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                    <x-forms.checkbox-button wire:model='addMetaData.status_titulo_area_categorias' id="status_titulo_area_categorias" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryAdd.status_titulo_area_categorias' id="status_titulo_area_categorias" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
                                 <div class="flex-1 max-sm:w-full">
                                     <label for="descripcion_area_categorias" class="form-label">Descripción Área Categorías:</label>
-                                    <x-forms.textarea wire:model="addMetaData.descripcion_area_categorias" id="descripcion_area_categorias"></x-forms.textarea>
-                                    @error('descripcion_area_categorias') 
+                                    <x-forms.textarea wire:model="categoryAdd.descripcion_area_categorias" id="descripcion_area_categorias"></x-forms.textarea>
+                                    @error('categoryAdd.descripcion_area_categorias') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                    <x-forms.checkbox-button wire:model='addMetaData.status_descripcion_area_categorias' id="status_descripcion_area_categorias" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryAdd.status_descripcion_area_categorias' id="status_descripcion_area_categorias" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
                                 <div class="flex-1 max-sm:w-full">
                                     <label for="descripcion" class="form-label">Descripción:</label>
-                                    <x-forms.textarea wire:model="addMetaData.descripcion" id="descripcion"></x-forms.textarea>
-                                    @error('descripcion') 
+                                    <x-forms.textarea wire:model="categoryAdd.descripcion" id="descripcion"></x-forms.textarea>
+                                    @error('categoryAdd.descripcion') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                    <x-forms.checkbox-button wire:model='addMetaData.status_descripcion' id="status_descripcion" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryAdd.status_descripcion' id="status_descripcion" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
                                 <div class="flex-1 max-sm:w-full">
                                     <label for="descripcion_detallada" class="form-label">Descripción Detallada:</label>
-                                    <x-forms.textarea wire:model="addMetaData.descripcion_detallada" id="descripcion_detallada"></x-forms.textarea>
-                                    @error('descripcion_detallada') 
+                                    <x-forms.textarea wire:model="categoryAdd.descripcion_detallada" id="descripcion_detallada"></x-forms.textarea>
+                                    @error('categoryAdd.descripcion_detallada') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                    <x-forms.checkbox-button wire:model='addMetaData.status_descripcion_detallada' id="status_descripcion_detallada" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryAdd.status_descripcion_detallada' id="status_descripcion_detallada" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative">
-                                @if ($addUrlImage)
+                                @if (!empty($categoryAdd->urlImage))
                                 <div class="w-full max-w-md rounded-lg overflow-hidden mb-2 border border-gray-500">
-                                    <img class="w-full" src="{{$addUrlImage->temporaryUrl()}}" alt="Preview" >
+                                    <img class="w-full" src="{{$categoryAdd->urlImage->temporaryUrl()}}" alt="Preview" >
                                 </div>                                    
                                 @endif
-                                <x-forms.input-file wire:model="addUrlImage" id="url_img" wire:key="{{$addUrlImageKey}}">Seleccionar imagen...</x-forms.input-file>
-                                @error('url_img') 
+                                <x-forms.input-file wire:model="categoryAdd.urlImage" id="url_img" wire:key="{{$categoryAdd->urlImageKey}}">Seleccionar imagen...</x-forms.input-file>
+                                @error('categoryAdd.urlImage') 
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                 @enderror 
                             </div>
@@ -805,7 +818,8 @@
         {{-- Modal agregar --}}
     
         {{-- Modal editar --}}
-        <div x-show='modalEdit' class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full inset-0 min-h-screen max-h-full bg-black bg-opacity-80 transition-opacity"
+        <div x-show='modalEdit' id="modalEdit"
+            class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full inset-0 min-h-screen max-h-full bg-black bg-opacity-80 transition-opacity"
             aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div class="relative p-4 w-full max-w-2xl max-h-full mx-auto">
                 <!-- Modal content -->
@@ -813,19 +827,19 @@
                     <!-- Modal header -->
                     <div class="flex flex-col items-center justify-between px-4 py-2 md:p-5 rounded-t dark:border-gray-600">
                         <h3 class="w-full text-2xl text-center font-semibold text-black">
-                            Categoría
+                            Editar Categoría
                         </h3>
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 md:p-5 space-y-4 relative">
-                        <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
-                            <x-loading size="md"></x-loading>
-                        </div>
-                        <form wire:submit.prevent="update" @submit="loading = true">
+                        <form wire:submit.prevent="update" x-on:submit="scrollToTop('modalEdit')">
+                            <div wire:loading class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10">
+                                <x-loading size="md"></x-loading>
+                            </div>
                             <div class="w-full mb-2 mt-4 relative">
                                 <label for="nombre" class="form-label">Categoría:</label>
                                 <x-forms.input type="text" wire:model="categoryEdit.nombre" id="nombre" />
-                                @error('nombre') 
+                                @error('categoryEdit.nombre') 
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                 @enderror 
                             </div>
@@ -833,7 +847,7 @@
                                 <label for="nombre" class="form-label-line">Status:</label>
                                 <x-forms.radio-button wire:model='categoryEdit.status' id="edit-activo" value="1">Activo</x-forms.radio-button>
                                 <x-forms.radio-button wire:model='categoryEdit.status' id="edit-inactivo" value="0">Inactivo</x-forms.radio-button>
-                                @error('status') 
+                                @error('categoryEdit.status') 
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                 @enderror 
                                 @if($errors->has('error'))
@@ -842,131 +856,131 @@
                             </div>
                             <div class="w-full mb-2 mt-8 relative">
                                 <label for="edit-slug" class="form-label">Slug:</label>
-                                <x-forms.input type="text" wire:model="editMetaData.slug" id="edit-slug" />
-                                @error('slug') 
+                                <x-forms.input type="text" wire:model="categoryEdit.slug" id="edit-slug" />
+                                @error('categoryEdit.slug') 
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                 @enderror 
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
                                 <div class="flex-1">
                                     <label for="edit-meta_title" class="form-label">meta-title:</label>
-                                    <x-forms.input type="text" wire:model="editMetaData.meta_title" id="edit-meta_title" />
-                                    @error('meta_title') 
+                                    <x-forms.textarea wire:model="categoryEdit.meta_title" id="edit-meta_title"></x-forms.textarea>
+                                    @error('categoryEdit.meta_title') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-24 ml-2">
-                                    <x-forms.checkbox-button wire:model='editMetaData.status_meta_title' id="edit-status_meta_title" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryEdit.status_meta_title' id="edit-status_meta_title">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
                                 <div class="flex-1">
                                     <label for="edit-meta_description" class="form-label">meta-description:</label>
-                                    <x-forms.input type="text" wire:model="editMetaData.meta_description" id="edit-meta_description" />
-                                    @error('meta_description') 
+                                    <x-forms.textarea wire:model="categoryEdit.meta_description" id="edit-meta_description"></x-forms.textarea>
+                                    @error('categoryEdit.meta_description') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-24 ml-2">
-                                    <x-forms.checkbox-button wire:model='editMetaData.status_meta_description' id="edit-status_meta_description" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryEdit.status_meta_description' id="edit-status_meta_description" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
                                 <div class="flex-1">
                                     <label for="edit-titulo_pestania" class="form-label">Título Pestaña:</label>
-                                    <x-forms.input type="text" wire:model="editMetaData.titulo_pestania" id="edit-titulo_pestania" />
-                                    @error('titulo_pestania') 
+                                    <x-forms.textarea wire:model="categoryEdit.titulo_pestania" id="edit-titulo_pestania"></x-forms.textarea>
+                                    @error('categoryEdit.titulo_pestania') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-24 ml-2">
-                                    <x-forms.checkbox-button wire:model='editMetaData.status_titulo_pestania' id="edit-status_titulo_pestania" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryEdit.status_titulo_pestania' id="edit-status_titulo_pestania" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
                                 <div class="flex-1">
                                     <label for="edit-titulo_header" class="form-label">Título Header:</label>
-                                    <x-forms.input type="text" wire:model="editMetaData.titulo_header" id="edit-titulo_header" />
-                                    @error('titulo_header') 
+                                    <x-forms.textarea wire:model="categoryEdit.titulo_header" id="edit-titulo_header"></x-forms.textarea>
+                                    @error('categoryEdit.titulo_header') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-24 ml-2">
-                                    <x-forms.checkbox-button wire:model='editMetaData.status_titulo_header' id="edit-status_titulo_header" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryEdit.status_titulo_header' id="edit-status_titulo_header" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
                                 <div class="flex-1">
                                     <label for="edit-titulo" class="form-label">Título:</label>
-                                    <x-forms.input type="text" wire:model="editMetaData.titulo" id="edit-titulo" />
-                                    @error('titulo') 
+                                    <x-forms.textarea wire:model="categoryEdit.titulo" id="edit-titulo"></x-forms.textarea>
+                                    @error('categoryEdit.titulo') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-24 ml-2">
-                                    <x-forms.checkbox-button wire:model='editMetaData.status_titulo' id="edit-status_titulo" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryEdit.status_titulo' id="edit-status_titulo" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
                                 <div class="flex-1">
                                     <label for="edit-titulo_area_categorias" class="form-label">Título Área Categorías:</label>
-                                    <x-forms.input type="text" wire:model="editMetaData.titulo_area_categorias" id="edit-titulo_area_categorias" />
-                                    @error('titulo_area_categorias') 
+                                    <x-forms.textarea wire:model="categoryEdit.titulo_area_categorias" id="edit-titulo_area_categorias"></x-forms.textarea>
+                                    @error('categoryEdit.titulo_area_categorias') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-24 ml-2">
-                                    <x-forms.checkbox-button wire:model='editMetaData.status_titulo_area_categorias' id="edit-status_titulo_area_categorias" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryEdit.status_titulo_area_categorias' id="edit-status_titulo_area_categorias" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
                                 <div class="flex-1">
                                     <label for="edit-descripcion_area_categorias" class="form-label">Descripción Área Categorías:</label>
-                                    <x-forms.input type="text" wire:model="editMetaData.descripcion_area_categorias" id="edit-descripcion_area_categorias" />
-                                    @error('descripcion_area_categorias') 
+                                    <x-forms.textarea wire:model="categoryEdit.descripcion_area_categorias" id="edit-descripcion_area_categorias"></x-forms.textarea>
+                                    @error('categoryEdit.descripcion_area_categorias') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-24 ml-2">
-                                    <x-forms.checkbox-button wire:model='editMetaData.status_descripcion_area_categorias' id="edit-status_descripcion_area_categorias" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryEdit.status_descripcion_area_categorias' id="edit-status_descripcion_area_categorias" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
                                 <div class="flex-1">
                                     <label for="edit-descripcion" class="form-label">Descripción:</label>
-                                    <x-forms.input type="text" wire:model="editMetaData.descripcion" id="edit-descripcion" />
-                                    @error('descripcion') 
+                                    <x-forms.textarea wire:model="categoryEdit.descripcion" id="edit-descripcion"></x-forms.textarea>
+                                    @error('categoryEdit.descripcion') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-24 ml-2">
-                                    <x-forms.checkbox-button wire:model='editMetaData.status_descripcion' id="edit-status_descripcion" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryEdit.status_descripcion' id="edit-status_descripcion" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
-                            <div class="w-full mb-2 mt-8 relative flex items-center justify-between">
+                            <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
                                 <div class="flex-1">
                                     <label for="edit-descripcion_detallada" class="form-label">Descripción Detallada:</label>
-                                    <x-forms.input type="text" wire:model="editMetaData.descripcion_detallada" id="edit-descripcion_detallada" />
-                                    @error('descripcion_detallada') 
+                                    <x-forms.textarea wire:model="categoryEdit.descripcion_detallada" id="edit-descripcion_detallada"></x-forms.textarea>
+                                    @error('categoryEdit.descripcion_detallada') 
                                     <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                     @enderror 
                                 </div>
                                 <div class="w-24 ml-2">
-                                    <x-forms.checkbox-button wire:model='editMetaData.status_descripcion_detallada' id="edit-status_descripcion_detallada" value="1">Activo</x-forms.checkbox-button>
+                                    <x-forms.checkbox-button wire:model='categoryEdit.status_descripcion_detallada' id="edit-status_descripcion_detallada" value="1">Activo</x-forms.checkbox-button>
                                 </div>
                             </div>
                             <div class="w-full mb-2 mt-8 relative">
-                                @if ($editUrlImage)
+                                @if ($categoryEdit->urlImage)
                                 <div class="w-full max-w-md rounded-lg overflow-hidden mb-2 border border-gray-500">
-                                    <img class="w-full" src="{{$editUrlImage->temporaryUrl()}}" alt="Preview" >
+                                    <img class="w-full" src="{{$categoryEdit->urlImage->temporaryUrl()}}" alt="Preview" >
                                 </div> 
-                                @elseif (!empty($categoryEdit['url_img']))
+                                @elseif (!empty($categoryEdit->url_img))
                                 <div class="w-full max-w-md rounded-lg overflow-hidden mb-2 border border-gray-500">
-                                    <img class="w-full" src="{{Storage::url($categoryEdit['url_img'])}}" alt="Preview" >
+                                    <img class="w-full" src="{{Storage::url($categoryEdit->url_img)}}" alt="Preview" >
                                 </div>
                                 @endif
-                                <x-forms.input-file wire:model="editUrlImage" id="edit-url_img" wire:key="{{$editUrlImageKey}}">Seleccionar imagen...</x-forms.input-file>
-                                @error('url_img') 
+                                <x-forms.input-file wire:model="categoryEdit.urlImage" id="edit-url_img" wire:key="{{$categoryEdit->urlImageKey}}">Seleccionar imagen...</x-forms.input-file>
+                                @error('categoryEdit.url_img') 
                                 <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                                 @enderror 
                             </div>

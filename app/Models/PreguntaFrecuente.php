@@ -38,4 +38,18 @@ class PreguntaFrecuente extends Model
     protected $attributes = [
         'status' => true,
     ];
+
+    public function formatedQuestion() 
+    {
+        $search = ["[[", "]]"];
+        $replace = ["<span class=\"font-bold text-current\">", "</span>"];
+        return str_replace($search, $replace, nl2br($this->pregunta));
+    }
+
+    public function formatedAnswer() 
+    {
+        $search = ["[[", "]]"];
+        $replace = ["<span class=\"font-bold text-primary-600 inline\">", "</span>"];
+        return str_replace($search, $replace, nl2br($this->respuesta));
+    }
 }
