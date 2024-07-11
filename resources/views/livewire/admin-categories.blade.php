@@ -1006,15 +1006,15 @@
                     <!-- Modal header -->
                     <div class="flex flex-col items-center justify-between px-4 py-2 md:p-5 rounded-t dark:border-gray-600">
                         <h3 class="w-full text-2xl text-center font-semibold text-black">
-                            Eliminar
+                            Eliminar Categoría
                         </h3>
                     </div>
                     <!-- Modal body -->
                     <div class="p-4 md:p-5 relative">
-                        <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
-                            <x-loading size="md"></x-loading>
-                        </div>
-                        <form wire:submit.prevent="destroy" @submit="loading = true">
+                        <form wire:submit.prevent="destroy">
+                            <div wire:loading class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
+                                <x-loading size="md"></x-loading>
+                            </div>
                             <div class="w-full mb-2 mt-4 relative">
                                 <p class="w-full text-left">¿Está seguro de eliminar la categoría <span class="font-bold">"{{ $categoryDelete['nombre'] }}"</span>? Todos los datos sobre esta categoría serán borrados permanetemente de la base de datos.</p>
                             </div>
