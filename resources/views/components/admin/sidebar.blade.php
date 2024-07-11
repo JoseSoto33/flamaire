@@ -57,6 +57,14 @@
         </ul>
         <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
             <li>
+                <a href="{{ route('admin-ajustes') }}/" wire:navigate.hover class="flex items-center p-2 text-white rounded-lg hover:text-tertiary hover:bg-secondary-200 group">
+                    <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-tertiary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M20 6H10m0 0a2 2 0 1 0-4 0m4 0a2 2 0 1 1-4 0m0 0H4m16 6h-2m0 0a2 2 0 1 0-4 0m4 0a2 2 0 1 1-4 0m0 0H4m16 6H10m0 0a2 2 0 1 0-4 0m4 0a2 2 0 1 1-4 0m0 0H4"/>
+                    </svg>                      
+                    <span class="flex-1 ms-3 whitespace-nowrap" x-show="sidebar">Ajustes</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('user-logout') }}/" class="flex items-center p-2 text-white rounded-lg hover:text-tertiary hover:bg-secondary-200 group">
                     <svg class="flex-shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-tertiary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"/>
