@@ -29,7 +29,7 @@
                 </x-button>
             </div>
         
-            <div class="w-full mt-4 mb-2 sm:w-1/2">
+            <div class="w-full mt-4 mb-2 max-w-sm">
                 <x-forms.input class="w-full" placeholder="Buscar..." wire:model.live="search" />
             </div>
         
@@ -190,7 +190,7 @@
                         </div>
                         <div class="w-full mb-2 mt-4 relative">
                             <label for="pregunta" class="form-label">Pregunta:</label>
-                            <x-forms.input type="test" wire:model="preguntaAdd.pregunta" id="pregunta" />
+                            <x-forms.input type="text" wire:model="preguntaAdd.pregunta" id="pregunta" />
                             @error('preguntaAdd.pregunta') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
@@ -249,7 +249,7 @@
                         </div>
                         <div class="w-full mb-2 mt-4 relative">
                             <label for="edit-pregunta" class="form-label">Pregunta:</label>
-                            <x-forms.input type="test" wire:model="preguntaEdit.pregunta" id="edit-pregunta" />
+                            <x-forms.input type="text" wire:model="preguntaEdit.pregunta" id="edit-pregunta" />
                             @error('preguntaEdit.pregunta') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
