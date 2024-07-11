@@ -8,12 +8,13 @@ use App\Models\PreguntaFrecuente;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
 #[Layout('components.layouts.layout-admin')] 
 class AdminPreguntas extends Component
 {
-    use WithPagination, WithFileUploads;
+    use WithPagination, WithFileUploads, WithoutUrlPagination;
     
     public $title = null;
     public $search = null;
