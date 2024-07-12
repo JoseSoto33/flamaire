@@ -1,12 +1,23 @@
 <div class="container max-w-7xl mx-auto p-4">
-    <h2 class="w-full text-4xl text-black text-center font-bold mb-4">
-        Preguntas Frecuentes
-    </h2>
-    <p class="w-full max-w-4xl text-lg text-gray-600 text-left font-normal m-auto">
+    <picture class="flex relative items-center justify-center mb-4">
+        <source type="image/webp" srcset="{{ asset('img/flamaire-logo-2.png') }}">
+        <source type="image/jpeg" srcset="{{ asset('img/flamaire-logo-2.png') }}">
+        <img width="350" height="66" class="logo_vip lazyload" loading="lazy" src="{{ asset('img/flamaire-logo-2.png') }}" alt="{{ config('variables.app_values.APP_NAME_2', 'Logo') }} - Información de la página">
+    </picture>
+    
+    <p class="w-full max-w-4xl text-lg text-gray-600 text-left font-normal mx-auto">
+        @if (!empty($var_descripcion))
+        {!! nl2br($var_descripcion) !!}
+        @else
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum praesentium soluta esse optio, ullam
         commodi culpa minima sit tempora aliquid, ut molestias quibusdam. Commodi dignissimos molestiae ipsa
         magni impedit provident.
+        @endif
     </p>
+
+    <h2 class="w-full text-4xl text-black text-center font-bold mb-4 mt-16">
+        Preguntas Frecuentes
+    </h2>
     @if ($preguntas->count())
     <div id="accordion-open" class="mt-8 w-full max-w-4xl mx-auto" x-data="{ openPanel: null }">
         @foreach ($preguntas as $index => $pregunta)
