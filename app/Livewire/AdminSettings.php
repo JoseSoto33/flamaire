@@ -6,21 +6,23 @@ use App\Livewire\Forms\Ajustes\AjustesForm;
 use App\Models\Ajuste;
 use App\Models\Divisa;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class AdminSettings extends Component
 {
     public $title;
     public AjustesForm $ajustesData;
+    public AjustesForm $ajustesSiteData;
 
     public function mount ()
     {
         $this->title = 'Ajustes';
-
+        $this->ajustesData->prefix = "pg_general";
         $data = Ajuste::where('campo', 'like', 'pg_general_%')->where('status', true);
         if ($data->exists()) {
             $result = $data->get();
             foreach ($result as $key => $row) {
-                $this->ajustesData->fields[$row->campo] = $row->valor;
+                $this->ajustesData->fields[Str::swap([$this->ajustesData->prefix.'_' => ''], $row->campo)] = $row->valor;
             }
         }
     }
