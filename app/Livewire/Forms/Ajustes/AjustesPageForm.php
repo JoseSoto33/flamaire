@@ -7,16 +7,10 @@ use Livewire\Attributes\Validate;
 use Illuminate\Support\Str;
 use Livewire\Form;
 
-class AjustesForm extends Form
+class AjustesPageForm extends Form
 {
     public $prefix = 'pg_general';
     public $fields = [
-        'num_cards' => 5,
-        'payment' => '',
-        'pricing' => '',
-        'divisa' => '',
-        'min' => 1,
-        'max' => 5000,
         'meta_title' => '',
         'meta_description' => '',
         'titulo_pestania' => '',
@@ -24,16 +18,28 @@ class AjustesForm extends Form
         'titulo' => '',
         'titulo_regiones' => '',
         'titulo_area_categorias' => '',
-        'descripcion_area_categorias' => '',
         'descripcion' => '',
+        'descripcion_area_categorias' => '',
         'descripcion_regiones' => '',
         'descripcion_detallada' => '',
-        'divisa_iso' => '',
-        'divisa_simbolo' => '',
-        'divisa_moneda' => '',
     ];
 
-    public function save ()
+    public function edit ($page_prefix = 'pg_general')
+    {
+        $this->reset();
+        
+        $this->prefix = $page_prefix;
+        $data = Ajuste::where('campo', 'like', $page_prefix.'_%');
+        if ($data->exists()) {
+            $result = $data->get();
+            foreach ($result as $key => $row) {
+                $index = Str::swap([$this->prefix.'_' => ''], $row->campo);
+                if (isset($this->fields[$index])) $this->fields[$index] = $row->valor;
+            }
+        }   
+    }
+
+    public function update ()
     {
         $upsert = [];
         foreach ($this->fields as $key => $field) {
@@ -43,17 +49,7 @@ class AjustesForm extends Form
         if (count($upsert)) {
             $ajuste = Ajuste::upsert($upsert, uniqueBy: ['campo'], update: ['valor']);
         }
-    }
 
-    public function edit ($page_prefix = 'pg_general')
-    {
-        $this->prefix = $page_prefix;
-        $data = Ajuste::where('campo', 'like', $page_prefix.'_%');
-        if ($data->exists()) {
-            $result = $data->get();
-            foreach ($result as $key => $row) {
-                if (!empty($row->valor)) $this->fields[Str::swap([$this->prefix.'_' => ''], $row->campo)] = $row->valor;
-            }
-        }   
+        $this->reset();
     }
 }

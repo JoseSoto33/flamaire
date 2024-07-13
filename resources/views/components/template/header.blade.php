@@ -1,8 +1,24 @@
-<header class="sticky top-0 z-10" x-ref="header">
+<header x-data="{ visible: true, scrollPosition: 0 }"
+    class="top-0 bg-white shadow-md backdrop-blur-2xl backdrop-saturate-200 py-2 z-10 lg:py-4"
+    :class="{ 'relative': visible, 'sticky': !visible }" 
+    x-ref="header"
+    @scroll.window="visible = (window.pageYOffset < $refs.header.offsetHeight) ? true: false">
+    <h1 x-show="visible" 
+        class="w-full text-center text-sm font-normal text-gray-400 mb-2 px-4 ">
+        @if (isset($titulo_header) && !empty($titulo_header))
+            {!! $titulo_header !!}
+        @elseif (isset($defaults['page_defaults']) &&
+                isset($defaults['defaultText'][$defaults['page_defaults'] . '_titulo_header']) &&
+                !empty($defaults['defaultText'][$defaults['page_defaults'] . '_titulo_header']))
+            {!! $defaults['defaultText'][$defaults['page_defaults'] . '_titulo_header'] !!}
+        @else
+            Las mujeres más cachondas cerca de tu localidad esperando Sexo Duro
+        @endif
+    </h1>
     <nav x-data="{ showMenu: false }"
-        class="flex w-full mx-auto bg-white shadow-md backdrop-blur-2xl backdrop-saturate-200 z-10">
+        class="flex w-full mx-auto px-4 z-10">
         <div
-            class="flex flex-wrap w-full items-center justify-between mx-auto text-blue-gray-900 max-w-7xl px-4 py-2 lg:py-4">
+            class="flex flex-wrap w-full items-center justify-between mx-auto text-blue-gray-900 max-w-7xl ">
             <a href="{{ route('home') }}/"
                 class="mr-1 sm:mr-4 block cursor-pointer py-1.5 font-sans text-base font-medium leading-relaxed text-inherit antialiased">
                 <img class="w-32 sm:w-40" src="{{ asset('img/flamaire-logo-2.png') }}" alt="" srcset="">
