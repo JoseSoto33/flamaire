@@ -198,7 +198,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Login</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Login</span>
             </button>
             <button type="button" wire:click="edit('pg_registro')"
                 @click="modalEdit = true; loading = false; titulo = 'Registro'; parrafo = '' " 
@@ -206,7 +206,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Registro</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Registro</span>
             </button>
             <button type="button" wire:click="edit('pg_detalles_anuncio')"
                 @click="modalEdit = true; loading = false; titulo = 'Detalles de Anuncio'; parrafo = 'Puede agregar etiquetas de <categoria>, <ciudad>, <zona> y <titulo>, y serán reemplazados por los valores respectivos pertenecientes al anuncio que se esté consultando.' " 
@@ -214,7 +214,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Detalles de Anuncio</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Detalles de Anuncio</span>
             </button>
             <button type="button" wire:click="edit('pg_categorias')"
                 @click="modalEdit = true; loading = false; titulo = 'Categorías'; parrafo = 'Para imprimir la categoría en los textos, agrege la etiqueta <categoria> y esta será reemplazada por el nombre de la categoría seleccionada.' " 
@@ -222,7 +222,15 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Categorías</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Categorías</span>
+            </button>
+            <button type="button" wire:click="edit('pg_paises')"
+                @click="modalEdit = true; loading = false; titulo = 'Países'; parrafo = 'Para imprimir el país, agrege la etiqueta <pais> y esta será reemplazada por el nombre del país seleccionado.' " 
+                class="w-40 flex flex-col items-center justify-center p-4 rounded-lg bg-white border border-white hover:border-gray-500 hover:shadow-xl">
+                <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
+                </svg>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Países</span>
             </button>
             <button type="button" wire:click="edit('pg_regiones_estados_departamentos')"
                 @click="modalEdit = true; loading = false; titulo = 'Ciudades'; parrafo = 'Para imprimir la ciudad, agrege la etiqueta <ciudad> y esta será reemplazada por el nombre de la ciudad seleccionada.' " 
@@ -230,7 +238,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Ciudades</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Ciudades</span>
             </button>
             <button type="button" wire:click="edit('pg_cat_regiones_estados_departamentos')"
                 @click="modalEdit = true; loading = false; titulo = 'Categorías/Ciudades'; parrafo = 'Para imprimir la categoría en los textos, agrege la etiqueta <categoria> y esta será reemplazada por el nombre de la categoría, y para la ciudad en los textos, agrege la etiqueta <ciudad> y esta será reemplazada por el nombre de la ciudad seleccionada.' " 
@@ -238,7 +246,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Categorías/Ciudades</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Categorías/Ciudades</span>
             </button>
             <button type="button" wire:click="edit('pg_ciudades_zonas')"
                 @click="modalEdit = true; loading = false; titulo = 'Zonas'; parrafo = 'Para imprimir la zona en los textos, agrege la etiqueta <zona> y esta será reemplazada por el nombre de la zona seleccionada. También puede agregar la etiqueta <ciudad> y será reemplazada por el nombre de la ciudad a la que pertenece la ciudad seleccionada.' " 
@@ -246,7 +254,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Zonas</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Zonas</span>
             </button>
             <button type="button" wire:click="edit('pg_cat_ciudades_zonas')"
                 @click="modalEdit = true; loading = false; titulo = 'Categorías/Ciudades/Zonas'; parrafo = 'Para imprimir la categoría en los textos, agrege la etiqueta <categoria> y esta será reemplazada por el nombre de la categoría; para la ciudad, puede agregar la etiqueta <ciudad>, y para la zona, agrege la etiqueta <zona>.' " 
@@ -254,7 +262,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Categorías/Ciudades/Zonas</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Categorías/Ciudades/Zonas</span>
             </button>
             <button type="button" wire:click="edit('pg_servicios')"
                 @click="modalEdit = true; loading = false; titulo = 'Servicios'; parrafo = 'Para imprimir el servicio en los textos, agrege la etiqueta <servicio> y esta será reemplazada por el nombre del servicio seleccionada.' " 
@@ -262,7 +270,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Servicios</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Servicios</span>
             </button>
             <button type="button" wire:click="edit('pg_serv_especiales')"
                 @click="modalEdit = true; loading = false; titulo = 'Servicios Especiales'; parrafo = 'Para imprimir el servicio especial en los textos, agrege la etiqueta <servicio> y esta será reemplazada por el nombre del servicio especial seleccionada.' " 
@@ -270,7 +278,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Servicios Especiales</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Servicios Especiales</span>
             </button>
             <button type="button" wire:click="edit('pg_desc_fisica')"
                 @click="modalEdit = true; loading = false; titulo = 'Descripción Física'; parrafo = 'Para imprimir la descripción física en los textos, agrege la etiqueta <apariencia> y esta será reemplazada por el nombre de la descripción física.' " 
@@ -278,7 +286,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Descripción Física</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Descripción Física</span>
             </button>
             <button type="button" wire:click="edit('pg_horarios')"
                 @click="modalEdit = true; loading = false; titulo = 'Horarios'; parrafo = 'Para imprimir el horario en los textos, agrege la etiqueta <horario> y esta será reemplazada por el horario seleccionado.' " 
@@ -286,7 +294,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Horarios</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Horarios</span>
             </button>
             <button type="button" wire:click="edit('pg_medios_pago')"
                 @click="modalEdit = true; loading = false; titulo = 'Medios de pago'; parrafo = 'Para imprimir el método de pago en los textos, agrege la etiqueta <forma-pago> y esta será reemplazada por el método de pago seleccionado.' " 
@@ -294,7 +302,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Medios de pago</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Medios de pago</span>
             </button>
             <button type="button" wire:click="edit('pg_disposiciones')"
                 @click="modalEdit = true; loading = false; titulo = 'Disposiciones'; parrafo = 'Para imprimir la disposición en los textos, agrege la etiqueta <disposicion> y esta será reemplazada por la disposición seleccionada.' " 
@@ -302,7 +310,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Disposiciones</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Disposiciones</span>
             </button>
             <button type="button" wire:click="edit('pg_panel_perfil')"
                 @click="modalEdit = true; loading = false; titulo = 'Panel Perfil'; parrafo = '' " 
@@ -310,7 +318,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Panel Perfil</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Panel Perfil</span>
             </button>
             <button type="button" wire:click="edit('pg_perfiles')"
                 @click="modalEdit = true; loading = false; titulo = 'Perfiles'; parrafo = '' " 
@@ -318,7 +326,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Perfiles</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Perfiles</span>
             </button>
             <button type="button" wire:click="edit('pg_favoritas')"
                 @click="modalEdit = true; loading = false; titulo = 'Favoritas'; parrafo = '' " 
@@ -326,7 +334,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Favoritas</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Favoritas</span>
             </button>
             <button type="button" wire:click="edit('pg_regiones')"
                 @click="modalEdit = true; loading = false; titulo = 'Regiones'; parrafo = '' " 
@@ -334,7 +342,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Regiones</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Regiones</span>
             </button>
             <button type="button" wire:click="edit('pg_contacto')"
                 @click="modalEdit = true; loading = false; titulo = 'Contáctenos'; parrafo = '' " 
@@ -342,7 +350,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Contáctenos</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Contáctenos</span>
             </button>
             <button type="button" wire:click="edit('pg_denuncia')"
                 @click="modalEdit = true; loading = false; titulo = 'Denuncias'; parrafo = '' " 
@@ -350,7 +358,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Denuncias</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Denuncias</span>
             </button>
             <button type="button" wire:click="edit('pg_terminos_legales')"
                 @click="modalEdit = true; loading = false; titulo = 'Texto - Términos Legales'; parrafo = '' " 
@@ -358,7 +366,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Texto - Términos Legales</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Texto - Términos Legales</span>
             </button>
             <button type="button" wire:click="edit('pg_politicas_privacidad')"
                 @click="modalEdit = true; loading = false; titulo = 'Políticas de privacidad'; parrafo = '' " 
@@ -366,7 +374,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Políticas de privacidad</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Políticas de privacidad</span>
             </button>
             <button type="button" wire:click="edit('pg_politicas_pagos')"
                 @click="modalEdit = true; loading = false; titulo = 'Políticas de pagos'; parrafo = '' " 
@@ -374,7 +382,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Políticas de pagos</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Políticas de pagos</span>
             </button>
             <button type="button" wire:click="edit('pg_ubicacion')"
                 @click="modalEdit = true; loading = false; titulo = 'Ubicación Restringida'; parrafo = '' " 
@@ -382,7 +390,7 @@
                 <svg class="w-10 h-10 fill-tertiary stroke-tertiary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/>
                 </svg>
-                <span class="w-full mt-2 text-lg text-black font-semibold text-center">Ubicación Restringida</span>
+                <span class="w-full mt-2 text-lg text-black font-semibold text-center text-wrap">Ubicación Restringida</span>
             </button>
         </div>
     </div>

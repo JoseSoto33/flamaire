@@ -2,7 +2,7 @@
     @if ($categorias->count())
         @foreach ($categorias as $categoria)
         <a href="#"
-            class="group max-w-md p-6 rounded-2xl shadow-lg bg-white border border-gray-300 text-black hover:border-transparent hover:bg-gradient-to-b hover:from-tertiary hover:via-primary-600 hover:to-primary-500 hover:text-white hover:shadow-primary-600 focus:border-none focus:bg-gradient-to-b focus:from-tertiary focus:via-primary-600 focus:to-primary-500 focus:text-white focus:shadow-primary-600">
+            class="group max-w-md p-2 rounded-2xl shadow-lg bg-white border border-gray-300 text-black sm:p-4 md:p-6 hover:border-transparent hover:bg-gradient-to-b hover:from-tertiary hover:via-primary-600 hover:to-primary-500 hover:text-white hover:shadow-primary-600 focus:border-none focus:bg-gradient-to-b focus:from-tertiary focus:via-primary-600 focus:to-primary-500 focus:text-white focus:shadow-primary-600">
             <div class="h-full flex flex-col items-center justify-center gap-1">
                 <div class="w-full flex flex-col justify-center items-center">
                     @if ($categoria->url_img)
@@ -10,19 +10,19 @@
                             <img class="rounded-2xl" src="{{Storage::url($categoria->url_img)}}" alt="Categoría">
                         </div>
                     @endif
-                    <h4 class="font-bold text-center text-3xl max-sm:text-3xl max-sm:text-center max-md:text-2xl text-tertiary group-hover:text-white group-focus:text-white">
+                    <h4 class="font-bold text-center text-2xl max-sm:text-lg max-sm:text-center max-md:text-xl text-tertiary group-hover:text-white group-focus:text-white">
                         {{$categoria->nombre}}
                     </h4>
                 </div>
-                <div class="w-full flex">
-                    <div class="w-full flex flex-wrap items-center justify-center font-semibold text-left text-lg max-sm:text-center text-gray-600 group-hover:text-white group-focus:text-white mt-1 gap-2">
-                        @if (isset($subcategorias[$categoria->id]))
+                @if (isset($subcategorias[$categoria->id]))
+                    <div class="w-full flex">
+                        <div class="w-full flex flex-wrap items-center justify-center font-semibold text-left text-sm sm:text-lg max-sm:text-center text-gray-600 group-hover:text-white group-focus:text-white mt-1 gap-2">
                             @foreach ($subcategorias[$categoria->id] as $subCategoria)
                             <span class="text-current cursor-pointer hover:underline">{{$subCategoria->nombre}}</span>
                             @endforeach
-                        @endif
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </a>  
         @endforeach
