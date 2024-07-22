@@ -25,5 +25,5 @@ Route::middleware(['auth.session'])->group(function () {
 });
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('/login/', FormAuth::class)->name('login');
+    Route::get('/iniciar-sesion/', FormAuth::class)->name('login');
 });
