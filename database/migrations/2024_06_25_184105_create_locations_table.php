@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('iso', 2);
             $table->string('nombre', 80);
+            $table->boolean('status')->default(true);
         });
 
         Schema::create('regiones_estados_departamentos', function (Blueprint $table) {
