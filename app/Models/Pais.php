@@ -35,5 +35,5 @@ class Pais extends Model
      *
      * @var array
      */
-    protected $fillable = ['iso', 'nombre', 'status'];
+    protected $fillable = ['iso', 'nombre', 'url_subdomain', 'url_img', 'status'];
 }

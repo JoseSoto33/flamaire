@@ -123,17 +123,7 @@
                     magni impedit provident.
                     @endif
                 </p>
-                <div class="w-full max-w-xl flex flex-wrap items-center justify-center gap-2 mt-4 mx-auto">
-                    <x-link href="#" link_type="outline">Ciudad 1</x-link>
-                    <x-link href="#" link_type="outline">Ciudad 2</x-link>
-                    <x-link href="#" link_type="outline">Ciudad 3</x-link>
-                    <x-link href="#" link_type="outline">Ciudad 4</x-link>
-                    <x-link href="#" link_type="outline">Ciudad 5</x-link>
-                    <x-link href="#" link_type="outline">Ciudad 6</x-link>
-                    <x-link href="#" link_type="outline">Ciudad 7</x-link>
-                    <x-link href="#" link_type="outline">Ciudad 8</x-link>
-                    <x-link href="#" link_type="outline">Ver Más +</x-link>
-                </div>
+                @livewire('PaisesHome')
             </div>
         </div>
     </section>

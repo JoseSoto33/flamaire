@@ -127,12 +127,27 @@
                     <div class="absolute w-full h-full top-0 left-0 overflow-hidden bg-black bg-opacity-30 p-1 flex items-center justify-center z-10" x-show="loading">
                         <x-loading size="md"></x-loading>
                     </div>
+                    @if (!empty($showCountry->url_img))
+                    <div class="w-full flex items-center justify-center -mx-2 mb-3">
+                        <div class="w-full max-w-sm rounded-lg overflow-hidden mb-2 border border-gray-500">
+                            <img class="w-full" src="{{Storage::url($showCountry->url_img)}}" alt="Preview" >
+                        </div>
+                    </div>
+                    @endif
                     <div class="w-full flex items-start justify-between -mx-2 mb-3">
                         <div class="w-full mb-1 sm:w-1/3 sm:mb-0 px-2 font-bold text-right">
                             País:
                         </div>
                         <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
                             {{ !empty($showCountry)? $showCountry->nombre : '' }}
+                        </div>
+                    </div>
+                    <div class="w-full flex items-start justify-between -mx-2 mb-3">
+                        <div class="w-full mb-1 sm:w-1/3 sm:mb-0 px-2 font-bold text-right">
+                            Url Subdominio:
+                        </div>
+                        <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
+                            {{ $showCountry->url_subdomain ?? 'Sin Subdominio' }}
                         </div>
                     </div>
                     <div class="w-full flex items-start justify-between -mx-2 mb-3">
@@ -146,204 +161,6 @@
                             inactivo
                             @endif
                         </div>
-                    </div>
-                    <div class="w-full flex items-start justify-between -mx-2 mb-3">
-                        <div class="w-full mb-1 sm:w-1/3 sm:mb-0 px-2 font-bold text-right">
-                            Slug:
-                        </div>
-                        <div class="w-full mb-1 sm:w-2/3 sm:mb-0 px-2">
-                            {{ $showMetaData['slug'] ?? 'Sin Slug' }}
-                        </div>
-                    </div>
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                            <thead class="text-xs text-secondary-300 uppercase bg-tertiary">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Campo
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Valor
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Status
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        meta-title
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $showMetaData['meta_title'] ?? 'Sin meta_title' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($showMetaData['status_meta_title'])
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        meta-description
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $showMetaData['meta_description'] ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($showMetaData['status_meta_description'])
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Título de Pestaña
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $showMetaData['titulo_pestania'] ?? '-' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($showMetaData['status_titulo_pestania'])
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Título Header
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $showMetaData['titulo_header'] ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($showMetaData['status_titulo_header'])
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Título
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $showMetaData['titulo'] ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($showMetaData['status_titulo'])
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Título Área Categorías
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $showMetaData['titulo_area_categorias'] ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($showMetaData['status_titulo_area_categorias'])
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Descripción Área Categorías
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $showMetaData['descripcion_area_categorias'] ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($showMetaData['status_descripcion_area_categorias'])
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Descripción
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $showMetaData['descripcion'] ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($showMetaData['status_descripcion'])
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                                <tr class="bg-secondary-100 cursor-pointer border-b hover:bg-secondary-200">
-                                    <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        Descripción Detallada
-                                    </th>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        {{ $showMetaData['descripcion_detallada'] ?? '' }}
-                                    </td>
-                                    <td class="px-6 py-4 font-medium text-black whitespace-nowrap">
-                                        @if ($showMetaData['status_descripcion_detallada'])
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>
-                                        @else
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                        </svg>  
-                                        @endif        
-                                    </td>
-                                </tr> 
-                            </tbody>
-                        </table>
                     </div>
                     
                     <div class="w-full mt-8 flex items-center justify-end">
@@ -383,10 +200,17 @@
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                         </div>
-                        <div class="w-full mb-2 mt-4 relative">
+                        <div class="w-full mb-2 mt-8 relative">
                             <label for="nombre" class="form-label">Nombre del País:</label>
                             <x-forms.input type="text" wire:model="countryAdd.nombre" id="nombre" />
                             @error('countryAdd.nombre') 
+                            <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
+                            @enderror 
+                        </div>
+                        <div class="w-full mb-2 mt-8 relative">
+                            <label for="url_subdomain" class="form-label">URL Subdominio:</label>
+                            <x-forms.input type="text" wire:model="countryAdd.url_subdomain" id="url_subdomain" />
+                            @error('countryAdd.url_subdomain') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                         </div>
@@ -402,119 +226,15 @@
                             @endif
                         </div>
                         <div class="w-full mb-2 mt-8 relative">
-                            <label for="slug" class="form-label">Slug:</label>
-                            <x-forms.input type="text" wire:model="countryAdd.slug" id="slug" />
-                            @error('countryAdd.slug') 
+                            @if (!empty($countryAdd->urlImage))
+                            <div class="w-full max-w-md rounded-lg overflow-hidden mb-2 border border-gray-500">
+                                <img class="w-full" src="{{$countryAdd->urlImage->temporaryUrl()}}" alt="Preview" >
+                            </div>                                    
+                            @endif
+                            <x-forms.input-file wire:model="countryAdd.urlImage" id="url_img" wire:key="{{$countryAdd->urlImageKey}}">Seleccionar imagen...</x-forms.input-file>
+                            @error('countryAdd.urlImage') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
-                            <div class="flex-1 max-sm:w-full">
-                                <label for="meta_title" class="form-label">meta-title:</label>
-                                <x-forms.textarea wire:model="countryAdd.meta_title" id="meta_title"></x-forms.textarea>
-                                @error('countryAdd.meta_title') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                <x-forms.checkbox-button wire:model='countryAdd.status_meta_title' id="status_meta_title" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
-                            <div class="flex-1 max-sm:w-full">
-                                <label for="meta_description" class="form-label">meta-description:</label>
-                                <x-forms.textarea wire:model="countryAdd.meta_description" id="meta_description"></x-forms.textarea>
-                                @error('countryAdd.meta_description') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                <x-forms.checkbox-button wire:model='countryAdd.status_meta_description' id="status_meta_description" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
-                            <div class="flex-1 max-sm:w-full">
-                                <label for="titulo_pestania" class="form-label">Título Pestaña:</label>
-                                <x-forms.textarea wire:model="countryAdd.titulo_pestania" id="titulo_pestania"></x-forms.textarea>
-                                @error('countryAdd.titulo_pestania') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                <x-forms.checkbox-button wire:model='countryAdd.status_titulo_pestania' id="status_titulo_pestania" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
-                            <div class="flex-1 max-sm:w-full">
-                                <label for="titulo_header" class="form-label">Título Header:</label>
-                                <x-forms.textarea wire:model="countryAdd.titulo_header" id="titulo_header"></x-forms.textarea>
-                                @error('countryAdd.titulo_header') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                <x-forms.checkbox-button wire:model='countryAdd.status_titulo_header' id="status_titulo_header" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
-                            <div class="flex-1 max-sm:w-full">
-                                <label for="titulo" class="form-label">Título:</label>
-                                <x-forms.textarea wire:model="countryAdd.titulo" id="titulo"></x-forms.textarea>
-                                @error('countryAdd.titulo') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                <x-forms.checkbox-button wire:model='countryAdd.status_titulo' id="status_titulo" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
-                            <div class="flex-1 max-sm:w-full">
-                                <label for="titulo_area_categorias" class="form-label">Título Área Categorías:</label>
-                                <x-forms.textarea wire:model="countryAdd.titulo_area_categorias" id="titulo_area_categorias"></x-forms.textarea>
-                                @error('countryAdd.titulo_area_categorias') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                <x-forms.checkbox-button wire:model='countryAdd.status_titulo_area_categorias' id="status_titulo_area_categorias" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
-                            <div class="flex-1 max-sm:w-full">
-                                <label for="descripcion_area_categorias" class="form-label">Descripción Área Categorías:</label>
-                                <x-forms.textarea wire:model="countryAdd.descripcion_area_categorias" id="descripcion_area_categorias"></x-forms.textarea>
-                                @error('countryAdd.descripcion_area_categorias') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                <x-forms.checkbox-button wire:model='countryAdd.status_descripcion_area_categorias' id="status_descripcion_area_categorias" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
-                            <div class="flex-1 max-sm:w-full">
-                                <label for="descripcion" class="form-label">Descripción:</label>
-                                <x-forms.textarea wire:model="countryAdd.descripcion" id="descripcion"></x-forms.textarea>
-                                @error('countryAdd.descripcion') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                <x-forms.checkbox-button wire:model='countryAdd.status_descripcion' id="status_descripcion" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between max-sm:flex-wrap">
-                            <div class="flex-1 max-sm:w-full">
-                                <label for="descripcion_detallada" class="form-label">Descripción Detallada:</label>
-                                <x-forms.textarea wire:model="countryAdd.descripcion_detallada" id="descripcion_detallada"></x-forms.textarea>
-                                @error('countryAdd.descripcion_detallada') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-full mt-2 sm:mt-0 sm:w-24 sm:ml-2">
-                                <x-forms.checkbox-button wire:model='countryAdd.status_descripcion_detallada' id="status_descripcion_detallada" value="1">Activo</x-forms.checkbox-button>
-                            </div>
                         </div>
                         <div class="w-full mt-8 flex items-center justify-end gap-x-2">
                             <x-button type="submit" btn_type="secondary">guardar</x-button>
@@ -555,10 +275,17 @@
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                         </div>
-                        <div class="w-full mb-2 mt-4 relative">
+                        <div class="w-full mb-2 mt-8 relative">
                             <label for="edit-nombre" class="form-label">País:</label>
                             <x-forms.input type="text" wire:model="countryEdit.nombre" id="edit-nombre" />
                             @error('countryEdit.nombre') 
+                            <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
+                            @enderror 
+                        </div>
+                        <div class="w-full mb-2 mt-8 relative">
+                            <label for="edit-url_subdomain" class="form-label">URL Subdominio:</label>
+                            <x-forms.input type="text" wire:model="countryEdit.url_subdomain" id="edit-url_subdomain" />
+                            @error('countryEdit.url_subdomain') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                         </div>
@@ -574,119 +301,19 @@
                             @endif
                         </div>
                         <div class="w-full mb-2 mt-8 relative">
-                            <label for="edit-slug" class="form-label">Slug:</label>
-                            <x-forms.input type="text" wire:model="countryEdit.slug" id="edit-slug" />
-                            @error('countryEdit.slug') 
+                            @if ($countryEdit->urlImage)
+                            <div class="w-full max-w-md rounded-lg overflow-hidden mb-2 border border-gray-500">
+                                <img class="w-full" src="{{$countryEdit->urlImage->temporaryUrl()}}" alt="Preview" >
+                            </div> 
+                            @elseif (!empty($countryEdit->url_img))
+                            <div class="w-full max-w-md rounded-lg overflow-hidden mb-2 border border-gray-500">
+                                <img class="w-full" src="{{Storage::url($countryEdit->url_img)}}" alt="Preview" >
+                            </div>
+                            @endif
+                            <x-forms.input-file wire:model="countryEdit.urlImage" id="edit-url_img" wire:key="{{$countryEdit->urlImageKey}}">Seleccionar imagen...</x-forms.input-file>
+                            @error('countryEdit.url_img') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
-                            <div class="flex-1">
-                                <label for="edit-meta_title" class="form-label">meta-title:</label>
-                                <x-forms.textarea wire:model="countryEdit.meta_title" id="edit-meta_title"></x-forms.textarea>
-                                @error('countryEdit.meta_title') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-24 ml-2">
-                                <x-forms.checkbox-button wire:model='countryEdit.status_meta_title' id="edit-status_meta_title">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
-                            <div class="flex-1">
-                                <label for="edit-meta_description" class="form-label">meta-description:</label>
-                                <x-forms.textarea wire:model="countryEdit.meta_description" id="edit-meta_description"></x-forms.textarea>
-                                @error('countryEdit.meta_description') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-24 ml-2">
-                                <x-forms.checkbox-button wire:model='countryEdit.status_meta_description' id="edit-status_meta_description" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
-                            <div class="flex-1">
-                                <label for="edit-titulo_pestania" class="form-label">Título Pestaña:</label>
-                                <x-forms.textarea wire:model="countryEdit.titulo_pestania" id="edit-titulo_pestania"></x-forms.textarea>
-                                @error('countryEdit.titulo_pestania') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-24 ml-2">
-                                <x-forms.checkbox-button wire:model='countryEdit.status_titulo_pestania' id="edit-status_titulo_pestania" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
-                            <div class="flex-1">
-                                <label for="edit-titulo_header" class="form-label">Título Header:</label>
-                                <x-forms.textarea wire:model="countryEdit.titulo_header" id="edit-titulo_header"></x-forms.textarea>
-                                @error('countryEdit.titulo_header') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-24 ml-2">
-                                <x-forms.checkbox-button wire:model='countryEdit.status_titulo_header' id="edit-status_titulo_header" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
-                            <div class="flex-1">
-                                <label for="edit-titulo" class="form-label">Título:</label>
-                                <x-forms.textarea wire:model="countryEdit.titulo" id="edit-titulo"></x-forms.textarea>
-                                @error('countryEdit.titulo') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-24 ml-2">
-                                <x-forms.checkbox-button wire:model='countryEdit.status_titulo' id="edit-status_titulo" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
-                            <div class="flex-1">
-                                <label for="edit-titulo_area_categorias" class="form-label">Título Área Categorías:</label>
-                                <x-forms.textarea wire:model="countryEdit.titulo_area_categorias" id="edit-titulo_area_categorias"></x-forms.textarea>
-                                @error('countryEdit.titulo_area_categorias') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-24 ml-2">
-                                <x-forms.checkbox-button wire:model='countryEdit.status_titulo_area_categorias' id="edit-status_titulo_area_categorias" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
-                            <div class="flex-1">
-                                <label for="edit-descripcion_area_categorias" class="form-label">Descripción Área Categorías:</label>
-                                <x-forms.textarea wire:model="countryEdit.descripcion_area_categorias" id="edit-descripcion_area_categorias"></x-forms.textarea>
-                                @error('countryEdit.descripcion_area_categorias') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-24 ml-2">
-                                <x-forms.checkbox-button wire:model='countryEdit.status_descripcion_area_categorias' id="edit-status_descripcion_area_categorias" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
-                            <div class="flex-1">
-                                <label for="edit-descripcion" class="form-label">Descripción:</label>
-                                <x-forms.textarea wire:model="countryEdit.descripcion" id="edit-descripcion"></x-forms.textarea>
-                                @error('countryEdit.descripcion') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-24 ml-2">
-                                <x-forms.checkbox-button wire:model='countryEdit.status_descripcion' id="edit-status_descripcion" value="1">Activo</x-forms.checkbox-button>
-                            </div>
-                        </div>
-                        <div class="w-full mb-2 mt-8 relative flex items-start justify-between">
-                            <div class="flex-1">
-                                <label for="edit-descripcion_detallada" class="form-label">Descripción Detallada:</label>
-                                <x-forms.textarea wire:model="countryEdit.descripcion_detallada" id="edit-descripcion_detallada"></x-forms.textarea>
-                                @error('countryEdit.descripcion_detallada') 
-                                <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
-                                @enderror 
-                            </div>
-                            <div class="w-24 ml-2">
-                                <x-forms.checkbox-button wire:model='countryEdit.status_descripcion_detallada' id="edit-status_descripcion_detallada" value="1">Activo</x-forms.checkbox-button>
-                            </div>
                         </div>
                         <div class="w-full mt-8 flex items-center justify-end gap-x-2">
                             <x-button type="submit" btn_type="secondary">guardar</x-button>

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('iso', 2);
             $table->string('nombre', 80);
+            $table->string('url_subdomain', length: 200);
+            $table->string('url_img', length: 200);
             $table->boolean('status')->default(true);
         });
 
