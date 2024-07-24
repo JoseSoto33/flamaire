@@ -841,14 +841,14 @@
                             <x-loading size="md"></x-loading>
                         </div>
                         <div class="w-full mb-2 mt-4 relative">
-                            <label for="nombre" class="form-label">Categoría:</label>
-                            <x-forms.input type="text" wire:model="categoryEdit.nombre" id="nombre" />
+                            <label for="edit-nombre" class="form-label">Categoría:</label>
+                            <x-forms.input type="text" wire:model="categoryEdit.nombre" id="edit-nombre" />
                             @error('categoryEdit.nombre') 
                             <x-forms.msg-error>{{ $message }}</x-forms.msg-error>
                             @enderror 
                         </div>
                         <div class="w-full mb-4 mt-6 relative flex gap-1">
-                            <label for="nombre" class="form-label-line">Status:</label>
+                            <label for="edit-status" class="form-label-line">Status:</label>
                             <x-forms.radio-button wire:model='categoryEdit.status' id="edit-activo" value="1">Activo</x-forms.radio-button>
                             <x-forms.radio-button wire:model='categoryEdit.status' id="edit-inactivo" value="0">Inactivo</x-forms.radio-button>
                             @error('categoryEdit.status') 
